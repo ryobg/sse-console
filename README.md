@@ -1,6 +1,6 @@
 # sse-console
 An exercise of providing alternative to the Skyrim SE console, the mod is on:
-https://www.nexusmods.com/skyrimspecialedition/mods/?
+https://www.nexusmods.com/skyrimspecialedition/mods/40190
 
 ## Development notes
 As with the other sse-whatever projects this come as the next generation (6th in fact) and all of
