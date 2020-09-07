@@ -1,0 +1,1088 @@
+[
+    {
+        "brief": "See the SKSE version", 
+        "names": [
+            "GetSKSEVersion"
+        ], 
+        "details": "Prompts the installed SKSE to report its version string.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle animator camera.", 
+        "names": [
+            "AnimCam"
+        ], 
+        "details": "Toggles a 3rd person camera mode that lets you rotate and zoom the camera around the player without changing the direction the player model is facing.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Player Spell Book.", 
+        "names": [
+            "psb"
+        ], 
+        "details": "Gives the character a complete spell book, including the shouts, and unlocks bestial abilities. Dragon souls are still required for shouts. This can crash Skyrim.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Shows 1st person model in 3rd person.", 
+        "names": [
+            "s1st"
+        ], 
+        "details": "This only works in 3rd person. It shows your 1st person arms behind your character in 3rd person. You control the 3rd person model, but the 1st person arms mimic your swings. It looks like you're controlling a character that's controlling another character.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Changes the speed of the free-flying camera (UFO cam).", 
+        "names": [
+            "sucsm"
+        ], 
+        "details": "Example: \"sucsm 50\" after typing \"tfc\" will allow the camera to move about five times faster than its default speed. The full command name is \"SetUFOCamSpeedMult\".", 
+        "params": "<Number>"
+    }, 
+    {
+        "brief": "Toggle AI.", 
+        "names": [
+            "tai"
+        ], 
+        "details": "Toggles AI (Artificial Intelligence) processing off or on. This command is targeted; if no actor is selected it will turn off/on AI processing globally.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle Borders.", 
+        "names": [
+            "tb"
+        ], 
+        "details": "Toggles cell border visibility. Borders appear as a thin white line on the terrain.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle controls driven.", 
+        "names": [
+            "tc"
+        ], 
+        "details": "If used when highlighting an NPC, will transfer control to said NPC, but any command input will be passed in addition to the player unless \"player.tc\" is used to remove control.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle Combat AI.", 
+        "names": [
+            "tcai"
+        ], 
+        "details": "Toggles Combat AI processing off or on.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle collision (clipping, noclip).", 
+        "names": [
+            "tcl"
+        ], 
+        "details": "Essentially, you can fly. Point in a direction and move wherever you want. You can also move through buildings and even the landscape. This command is targeted; if no actor is selected it will turn off collision for the player while keeping other actors stuck in place. It is possible to deselect any target reference by double clicking the same object or area in the landscape, which will cause \"tcl\" to default itself to target the player.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle AI Detection.", 
+        "names": [
+            "TDetect"
+        ], 
+        "details": "Disables and enables AI detection, meaning if it is toggled off, NPCs won't be able to \"see\" you, or anyone else, even if you're right in front of them or attacking them.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle End-Of-Frame ImageSpace.", 
+        "names": [
+            "teofis"
+        ], 
+        "details": "Disables blur, contrast adjustment, fades back in from a black screen, and a few other things. Will give a huge framerate boost on \"weak\" video cards, at the expense of some prettiness.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Free flying camera.", 
+        "names": [
+            "tfc"
+        ], 
+        "details": "Sets your controls to move the camera around, instead of the player. Use with 3rd person view to get a good look at your character. Adding the \"1\" tag at the end freezes all the environment, but still allows you to move around with the camera.", 
+        "params": "[1]"
+    }, 
+    {
+        "brief": "Toggle Fog of War.", 
+        "names": [
+            "tfow"
+        ], 
+        "details": "Despite the name, this simply disables the local map, leaving the player and door markers on a black void. Has no effect on the world map.\nNote: There seems to be a bug when activating this when mining or woodcutting that causes your character to disappear and not be able to attack or go in to third person. Loading a previous save before this happened seems to fix this.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle grass.", 
+        "names": [
+            "tg"
+        ], 
+        "details": "Toggles display of grass.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle god mode.", 
+        "names": [
+            "tgm"
+        ], 
+        "details": "No damage taken, no magicka consumed, no stamina used, no encumbrance, unlimited arrows, no shout cooldown. You can only use this on yourself.\nNote: God mode will not protect you from scripted damage, such as that from lightning in the Soul Cairn, or damaging light or darkness in Twilight Sepulcher and Apocrypha, respectively. It also will not prevent you from contracting a disease.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle immortal mode.", 
+        "names": [
+            "tim"
+        ], 
+        "details": "Everything behaves as normal except you cannot die as a result of being reduced to 0 health. You can only use this on yourself. If you are decapitated or bitten and thrown by a dragon while using this, it can have some quite frustrating results (e.g. you will walk around with your head cut off).[verification needed] These effects can be avoided by setting the character as essential.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle LOD.", 
+        "names": [
+            "tll"
+        ], 
+        "details": "Dramatically reduces draw distance for a performance gain and might solve glitches related to LOD.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle menus (HUD).", 
+        "names": [
+            "tm"
+        ], 
+        "details": "\"Menus\" refers to the Heads-Up Display (HUD) on the screen: the health/magicka/fatigue meters, your current weapon and spell, the compass, etc. This also removes the cross-hair if it's present. This command is useful for taking screenshots without all the clutter.\n\nNote: the \"tm\" command will toggle off ALL menus, including the console menu itself! To avoid confusion:\n1. Press ~.\n2. Type 'tm' and press ENTER.\n3. At this point, your console is still open but you cannot see it! Press ~ again to close it.\n4. When you wish to toggle menus on again, press ~ to open the console (you will not see anything, but the game action will pause).\n5. Type 'tm' and press ENTER.\n\nAlso see \"csb\".", 
+        "params": ""
+    }, 
+    {
+        "brief": "Show/hide all map markers.", 
+        "names": [
+            "tmm"
+        ], 
+        "details": "<show> should be 1 to show all markers, or 0 to hide all markers. Hiding markers hides all markers - including the city markers that are automatically visible at the beginning of the game. When adding markers, the 2nd parameter <discovered> determines if the ones you add are set as discovered (1, default) or not (0), and the 3rd parameter <includehidden> is all (1) or all but hidden (0,default) (e.g., to add all undiscovered markers without fast travel, enter \"tmm 1,0,0\").", 
+        "params": "<Show> [<Discovered> <Include hidden>]"
+    }, 
+    {
+        "brief": "Toggle sky.", 
+        "names": [
+            "ts"
+        ], 
+        "details": "Toggles display of the sky.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle script processing.", 
+        "names": [
+            "tscr"
+        ], 
+        "details": "Toggles script processing off or on globally.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle trees.", 
+        "names": [
+            "tt"
+        ], 
+        "details": "Toggles display of trees.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle wireframe.", 
+        "names": [
+            "twf"
+        ], 
+        "details": "Shows wireframe in red or opaque.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Toggle water system.", 
+        "names": [
+            "tws"
+        ], 
+        "details": "Toggles display of water (display underwater remains unchanged).", 
+        "params": ""
+    }, 
+    {
+        "brief": "Give a character the specified amount of an item.", 
+        "names": [
+            "AddItem"
+        ], 
+        "details": "E.g., \"player.additem 000669A5 5\" will add five leeks to your player's inventory. The effects of <flag> are unknown, but it probably refers to ownership and stolen status. Changes to an NPC's inventory will usually appear immediately if you're pickpocketing them when you open the console. It is possible to remove items with this command by using negative numbers.", 
+        "params": "<Item ID> <Number> [flag]"
+    }, 
+    {
+        "brief": "Give a character the selected perk.", 
+        "names": [
+            "AddPerk"
+        ], 
+        "details": "For perk ID codes, see the page for the perk's corresponding skill, indexed at Skills. To find the perk ID code in-game, try \"help <perkname> 0\".\n\nE.g., \"player.addperk 000c44c0\" would give your player the perk \"Adept Destruction\".", 
+        "params": "<Perk ID>"
+    }, 
+    {
+        "brief": "Add a specific spell to a character's available arsenal.", 
+        "names": [
+            "AddSpell"
+        ], 
+        "details": "Works with powers, abilities, blessings, and diseases, but not shouts. For a spell's ID code, see the page for its corresponding magic school, indexed at Spells. For other applicable IDs, see: Powers and Abilities, Blessings, or Diseases. This command does not work with dragon shouts; to add those, see the \"TeachWord\" command.\n\nHere are some examples (note how adding certain magic effects can have unanticipated consequences):\n\"player.addspell 00092c48\" will add the \"Beast Form\" power to the player's spell book, essentially turning you into a werewolf.\n\"player.addspell 000b8780\" will add the \"Sanguinare Vampiris\" disease, turning your character into a vampire over the course of 3 ingame days. (Diseases will only be added after a random number is checked. The chance to contract \"Sanguinare Vampiris\" is 10%.)\n\"player.addspell 000d2056\" will add the \"Ghost Ability\" effect, essentially turning your character into a ghost. (If you remove this spell again, you will need to reset the actor's opacity with setactoralpha command.)\n\nAdding certain permanent abilities this way (e.g., Ancient Knowledge) will merely add their name to the list of active effects, but will not actually give the expected benefits. That requires changing the appropriate Actor Value Indices separately.", 
+        "params": "<Spell ID>"
+    }, 
+    {
+        "brief": "Add a character to a faction.", 
+        "names": [
+            "AddToFaction", 
+            "AddFac"
+        ], 
+        "details": "Valid numbers for the faction rank vary, but 0 will always add the actor with the lowest possible faction rank and -1 will remove the actor from the faction.Examples for some factions that can't usually be joined in the game, are given below:0005C84D PotentialFollowerFactionGives the NPC all necessary dialogue to be selected as a new follower.00019809 PotentialMarriageFactionGives the NPC all necessary dialogue to be available as a spouse. (Will not work with all races or NPCs with unique voices.)xx004290 PotentialChildrenFactionGives the NPC child necessary dialogue to be adopted. (May not always work, some children will disappear all day and just sleep at your home.)xx = Hearthfire loading order number0005A1A4 Player Ally FactionWill turn the selected NPC into a friendly character.000E0CD9 Bandit Ally FactionIf used on the player, most bandits will no longer attack.000E0CDA Warlock Ally FactionIf used on the player, most warlocks and necromancers will no longer attack.000E0CDB Draugr Ally FactionIf used on the player, most draugr will no longer attack.", 
+        "params": "<Faction ID> <Faction rank>"
+    }, 
+    {
+        "brief": "Advance a character's level by one.", 
+        "names": [
+            "AdvLevel"
+        ], 
+        "details": "Adds one level to your character's current level. You are not given the option to increase an attribute, are not awarded any perk points, nor, obviously, will any of your skills improve. This command may therefore seem of limited value; however, remember that enemies get tougher as your level increases - so if you're a Tamriel veteran and have already cranked the difficulty to \"Legendary\" but still crave more of a challenge, using \"advlevel\" to add ~10 levels to your character (that's ten levels without skill increases, attribute gains, or new perks!) should certainly make the enemies more difficult.(though remember that the loot will also be leveled)", 
+        "params": ""
+    }, 
+    {
+        "brief": "Advance the specified skill.", 
+        "names": [
+            "AdvSkill"
+        ], 
+        "details": "AdvSkill registers the increase and will count towards your next levelup. \n\nThe full list of values recognized by \"AdvSkill\" is provided at Actor Value Indices. The number represents the experience level to add to the skill (e.g., \"player.advskill\" destruction 1 will only add 1 experience towards the next skill increase, it will not advance Destruction 1 skill level). Some skills require far more experience points than other skills, crafting skills level quickly with few points, but armor skills require much higher numbers.\n\nSee the \"IncPCS\" command for an alternative means of leveling skills, which in comparison does not use the relative-value experience points; however, \"IncPCS\" can only increase a skill by one level per use.", 
+        "params": "<Skill> <Number>"
+    }, 
+    {
+        "brief": "Casts the specified spell at the target.", 
+        "names": [
+            "Cast"
+        ], 
+        "details": "The source can be:\nleft - left hand\nright - right hand\nvoice - voice/power\n\nNote: casting an unequipped spell is allowed, the spell will be automatically equipped. But it will cause SkyrimVR not to display the hand's spell effect when you stop casting. Example:\nFirst \"player.equipspell 12fcc right\", then \"player.cast 12fcc player right\" will cast Healing to player self.\nFirst \"player.equipspell 12fcd right\", then \"player.cast 12fcd player right\" will cast Flames to player pointing.\nFirst \"player.equipspell 12fd2 left\", then \"player.cast 12fd2 1aa65 left\" will cast Heal Other to your follower Benor.\n\nShouting with this command also works:\n\"player.cast 13f3a player voice\": Unrelenting Force - Fus Ro Dah\n\"player.cast 13f39 player voice\": Unrelenting Force - Fus Ro\n\"player.cast 13e09 player voice\": Unrelenting Force - Fus\n\nThe spell IDs of shouts are completely different from the shout's ID and are considered as three different spells. You can find these IDs from CreationKit of Skyrim > Magic > Spell > Voice Power. Note: The player's voice will not be played when casting shout from console. For more information, see [Cast - Creation Kit]. \n\nThese codes could be used in a bat file.", 
+        "params": "<Spell ID> <Target ID> <left/right/voice/power>"
+    }, 
+    {
+        "brief": "Complete the quest instantly.", 
+        "names": [
+            "CompleteQuest"
+        ], 
+        "details": "Be careful when using this command. Often, it merely makes the quest in the Journal become a completed quest. However, the related actors or NPCs to the quest may not recognize that you have completed a quest/task in order to give you a following quest/task. Quest IDs can be found in Quests.", 
+        "params": "<Quest ID>"
+    }, 
+    {
+        "brief": "Damage value of attribute by amount.", 
+        "names": [
+            "DamageActorValue"
+        ], 
+        "details": "Example: \"player.damageactorvalue health 50\" causes you to lose 50 health as if you just took damage. It will still recover the same way it normally does. Attributes can become negative. Can be restored with restoreactorvalue. This is a better option than \"ModAV\" for temporary debuffing, since it can be restored to its original value easier. Stacks with \"ModAV\" effects. Skills/attributes damaged with damageactorvalue will still appear white, but will correctly restore to what they really are. Can be used to kill NPCs.\n\nAlso see \"RestoreActorValue\". The full list of attributes is provided at Actor Value Indices", 
+        "params": "<Attribute> <Number>"
+    }, 
+    {
+        "brief": "Don't render the selected object (includes actors).", 
+        "names": [
+            "Disable"
+        ], 
+        "details": "The object will be made invisible, collision will also be turned off and AI won't process on the object, but scripting on the object will run (unlike Oblivion, where it would instantly crash to desktop, the player can't be disabled). Also see \"Enable\".", 
+        "params": ""
+    }, 
+    {
+        "brief": "Dispel all temporary spell effects on target.", 
+        "names": [
+            "DispelAllSpells"
+        ], 
+        "details": "Example: player.dispelallspells dispels any magic effect on the player including buffs/debuffs (not attributes/skills changed with the console), potions/poisons, DoT effects, and activated powers (except beast form and other morphs).", 
+        "params": ""
+    }, 
+    {
+        "brief": "Force drop items from a character's inventory.", 
+        "names": [
+            "Drop"
+        ], 
+        "details": "You may select a character and use the command \"Drop <base ID> <amount>\" to drop any items in their inventory by force, including normally undroppable quest items. You may need to use \"ShowInventory\" to get a detailed list of items and get the correct IDs you need.", 
+        "params": "<ID> <Number>"
+    }, 
+    {
+        "brief": "Duplicate all items in the targeted container and places them in the given container.", 
+        "names": [
+            "DuplicateAllItems"
+        ], 
+        "details": "Example: Selecting an NPC with the mouse then entering \"duplicateallitems 89c79\" will copy all items in the NPC's inventory and place the duplicates into the container with refID 89c79. You can get the container/NPC's refID by clicking on them and committing the ID to memory before selecting the container/NPC which has the items you want to copy. You can also type in the refID of the container/NPC with the items to be copied before the command with a period in between instead of selecting anything with the mouse. For example, entering \"a2c94.duplicateallitems 89c79\" will copy all items from Lydia's inventory (whose refID is a2c94) and place the duplicates into the container with the refID 89c79.\nAlso see \"RemoveAllItems\".", 
+        "params": "<Container/NPC ID>"
+    }, 
+    {
+        "brief": "Render the selected object (includes actors).", 
+        "names": [
+            "Enable"
+        ], 
+        "details": "Undoes disable, making the object and its collision and AI appear in the world again. Also see \"Disable\".", 
+        "params": ""
+    }, 
+    {
+        "brief": "Equip selected NPC with Item.", 
+        "names": [
+            "EquipItem"
+        ], 
+        "details": "With a selected NPC, you can typically use \"EquipItem <Item ID>\" for use (if one is not already in their inventory, it will be added); the player-character equivalent is \"player.EquipItem\".\n\nAn optional extra parameter is 0 or 1: the latter seems to make the item not be unequippable (sometimes - the results are not entirely consistent), e.g. to keep a weapon drawn at all times; the default is 0, and leaves the item contextually unequippable (or resets it to be so, if 1 was used earlier).\nA second optional parameter is left or right, which puts Item in a specific hand, if applicable; if this parameter is used, then 0 or 1 must precede it (usually 0).\n\nIt only works on baseIDs. Consequently, it will equip an item of that type already in inventory, or a create a new copy of the item if it is not already in inventory. You cannot use it to transfer a specific item from your inventory (or the ground, or a container) to an NPC.\nThe opposite command is unequipitem, and works with the same basic syntax. See also \"EquipSpell\" and \"EquipShout\".", 
+        "params": "<Item ID> <0/1> <left/right>"
+    }, 
+    {
+        "brief": "Equipping the given spell on a particular casting source.", 
+        "names": [
+            "EquipSpell"
+        ], 
+        "details": "<Casting Sources> could be:\nleft: The caster's left hand.\nright: The caster's right hand.\nvoice: Used for Shouts.\ninstant: Used for Potions and Powers.\n\nExample:\n\"player.equipspell 12fcd left\" will equip Flames to player's left hand.\n\"player.equipspell 12fd2 right\" will equip Heal Other to player's right hand.\n\nUsers have reported being able to do things like force a lesser power that is normally triggered with the Shout key to be equipped as a left-hand spell, and other things not normally possible; such antics may produce unexpected or undesirable results, so save first before experimenting.\n\nIt seems impossible to equip actual shouts with this command to player (use \"EquipShout\" instead).", 
+        "params": "<Spell ID> <Casting Sources>"
+    }, 
+    {
+        "brief": "Equipping the given shout.", 
+        "names": [
+            "EquipShout"
+        ], 
+        "details": "Example:\n\"player.equipshout 44250\" will let the player equips Dragonrend.\n\"player.equipshout 13e07\" will let the player equips Unrelenting Force.", 
+        "params": "<Shout ID>"
+    }, 
+    {
+        "brief": "Force to modify the value of attribute.", 
+        "names": [
+            "ForceAV"
+        ], 
+        "details": "\"ForceAV\" modifies the attribute value by registering a permanent modifier (positive or negative) of the amount required to force the attribute to the stated value. Displayed player attributes modified in this way will be highlighted (default is green text) to indicate a modifier (\"buff\" or \"debuff\") is being applied.\n\nAlso see \"ModAV\" and \"SetAV\". The full list of attributes is provided at Actor Value Indices", 
+        "params": "<Attribute> <Number>"
+    }, 
+    {
+        "brief": "Get value of attribute.", 
+        "names": [
+            "GetAV"
+        ], 
+        "details": "This will return the value of the specified attribute (a.k.a. actor value) for the specified target. You can select a target with the mouse, or enter the refID of the target followed by a period before the command. For example, \"player.getav heavyarmor\" will return the player's Heavy Armor skill value. For a list of all of the actor values that can be used, see Actor Value Indices.", 
+        "params": "<Attribute>"
+    }, 
+    {
+        "brief": "Get value information of attribute.", 
+        "names": [
+            "GetAVinfo"
+        ], 
+        "details": "This will print a short list of information about the given attribute (a.k.a. actor value) of the specified target. You can select a target with the mouse, or enter the refID of the target followed by a period before the command. For example, player.getavinfo lightarmor will return information about the player's Light Armor skill, such as the base value (what it was just after character creation), any current temporary or permanent modifiers, etc. For a list of all of the actor values that can be used, see Actor Value Indices.", 
+        "params": "<Attribute>"
+    }, 
+    {
+        "brief": "Get level of target.", 
+        "names": [
+            "GetLevel"
+        ], 
+        "details": "Gets the level of the targeted character or creature.", 
+        "params": "<Target>"
+    }, 
+    {
+        "brief": "Check an area's clear code.", 
+        "names": [
+            "GetLocationCleared"
+        ], 
+        "details": "0 = not cleared, 1 = cleared. You must use the location id, not the name; for example, \"GetLocationCleared 00018EE2\" will check Swindler's Den. Also see \"SetLocationCleared\".", 
+        "params": "<Location ID>"
+    }, 
+    {
+        "brief": "Get the relationship rank of two actors.", 
+        "names": [
+            "GetRelationshipRank"
+        ], 
+        "details": "Should range from -4 to 4. See \"SetRelationshipRank\".", 
+        "params": "<Target>"
+    }, 
+    {
+        "brief": "Show the current active quest stage.", 
+        "names": [
+            "GetStage"
+        ], 
+        "details": "Shows the current stage that the quest is at based on the game's internal stage numbering.", 
+        "params": "<Quest ID>"
+    }, 
+    {
+        "brief": "Check if the selected actor has a perk.", 
+        "names": [
+            "HasPerk"
+        ], 
+        "details": "For perk ID codes, see the page for the perk's corresponding skill, indexed at Skills. To find the perk ID code in-game, try help <perkname> 0.\n\nE.g., \"HasPerk 3af84\" would return Perk Rank >> 1 if the selected actor has taken the first level of the Two-handed Skull Crusher perk.", 
+        "params": "<Perk ID>"
+    }, 
+    {
+        "brief": "Increase the given skill to the next level.", 
+        "names": [
+            "IncPCS"
+        ], 
+        "details": "For example, entering \"IncPCS lightarmor\" will increase the player's light armor skill to the next level. No integer or variable may be used after the command - it can only be used to increase a skill one level at a time. Using this command will lead to a normal increase in the player's level with attribute selection and a perk point, unlike the \"AdvLevel\" command.\n\nAs an alternative to \"IncPCS\", see the \"AdvSkill\" command. By comparison, \"AdvSkill\" uses a more complex leveling system but can be used to advance a skill by any number of levels at once.", 
+        "params": "<Skill name>"
+    }, 
+    {
+        "brief": "Kill the selected actor.", 
+        "names": [
+            "Kill"
+        ], 
+        "details": "Open the console, click on the actor you want to die, type \"Kill\" and press Enter. Entering an optional Actor ID will treat that actor as the person who killed the target[verification needed], which can cause other NPCs to attack the actor as they would a murderer. Specifying the Player as the Actor ID will assign blame to the player, counting the kill as a murder if the target was non-hostile and possibly incurring a bounty if other NPCs witness the death.\n\nSome actors (primarily NPCs, not creatures) can be flagged as \"essential\" by the game and thus will not die. In this case, the character will instead crouch and stumble around for a while; however, this stumbling can usually be ended early by using the resurrect command on him/her.", 
+        "params": "[Actor ID]"
+    }, 
+    {
+        "brief": "Lock targeted object (i.e. door, container) with a difficulty.", 
+        "names": [
+            "Lock"
+        ], 
+        "details": "Values of <level> will display in the tooltip for the locked object as follows: 0 - 25: Apprentice, 26 - 50: Adept, 51 - 75: Expert, 76 - 100: Master, 101+: Requires Key.", 
+        "params": "<Level>"
+    }, 
+    {
+        "brief": "Delete an object.", 
+        "names": [
+            "MarkForDelete"
+        ], 
+        "details": "Deletes the targeted object the next time the area (cell) it resides in is reloaded. Useful for removing specific unwanted furniture/decoration from homes. Be careful as there's no way to restore deleted objects. Objects marked for delete will show [D] next to their ref ID if you re-target (re-click) them. Can be used to remove Ash Piles and Ghost Remains, which otherwise never get removed from the world.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Modify value of attribute by amount.", 
+        "names": [
+            "ModAV"
+        ], 
+        "details": "Modifies the attribute value by registering a permanent modifier (positive or negative) of the value stated. Displayed player attributes modified in this way will be highlighted (default is green text) to indicate a modifier ('buff' or 'debuff') is being applied. \n\nAlso see \"ForceAV\" and \"SetAV\". The full list of attributes is provided at Actor Value Indices", 
+        "params": "<Attribute> <Number>"
+    }, 
+    {
+        "brief": "Move a character to specified actor and vice versa.", 
+        "names": [
+            "MoveTo"
+        ], 
+        "details": "Example 1 - move Player to an object or NPC: \"player.MoveTo 0002BFA2\". Using this code will instantly teleport you to Hadvar's position. You must use RefID\nExample 2 - move an object or NPC to the Player: type \"prid 000A2C94\", Enter. Then, type \"MoveTo player\", Enter. Using this code will instantly put Lydia next to you. This code is especially useful for a follower/NPC who's just disappeared after a quest due to a bug in game; e.g. Lydia is disappeared after The Break of Dawn quest. You can also select an object and type \"MoveTo player\" which will move the selected object to your feet and orient it based on the camera's angle. Also see \"PlaceAtMe\".", 
+        "params": "<Actor ID>"
+    }, 
+    {
+        "brief": "Move to quest target.", 
+        "names": [
+            "MoveToQT"
+        ], 
+        "details": "Example: \"MoveToQT da01\". Using this code will instantly teleport you to the target (i.e., the marker on the map) of the quest. It does not advance the quest in and of itself, but may bring you into a situation which might immediately do so. It takes you to the ultimate current target of the quest in its respective cell - so it doesn't just take you to the next doorway you need to go through. It doesn't skip over to the final stage of the quest, either - you are delivered to the target of the current stage of the quest. Use caution, as you will be placed right on top of or as close to the current marker as possible, which may position you in the middle of a group of enemies, or on top of a trapdoor, etc. See the main index of Quests for the quest ID codes.", 
+        "params": "<Quest ID>"
+    }, 
+    {
+        "brief": "Open a character's inventory.", 
+        "names": [
+            "OpenActorContainer"
+        ], 
+        "details": "Opens selected NPC's inventory to allow the player to add/remove items as if it were any other container.", 
+        "params": "1"
+    }, 
+    {
+        "brief": "Pay the bounty.", 
+        "names": [
+            "PayCrimeGold"
+        ], 
+        "details": "Pay the bounty for the faction targeted NPC belongs to (the bounty gold will be removed from your inventory). The <jail> parameter controls whether you are sent to jail: entering 1 means you will be teleported to the respective faction's jail (the default), entering 0 means you will stay put. The <confiscate> parameter controls what happens to your stolen items: entering 1 means they are confiscated, entering 0 means you keep them (the default). If you don't specify either parameter, you will be sent to jail but keep your stolen items. The <faction ID> is only needed if you can't target an NPC. May also help in case guards attack you on sight.", 
+        "params": "<Jail> <Confiscate> <Faction ID>"
+    }, 
+    {
+        "brief": "Spawn specified actor or object at current position.", 
+        "names": [
+            "PlaceAtMe"
+        ], 
+        "details": "Example: \"player.PlaceAtMe 000fea9b\". Using this code will instantly summon an instance of an object or NPC at your position. The above example summons a dragon. Not recommended for named NPCs. This code uses the Object (base) ID and not specific reference ID as it is creating a new instance of that object/actor in the world; using it with named NPCs can result in duplicates unless the original was somehow removed.\n\nAlso see \"MoveTo\" which can summon named NPCs by refID using the following commands: \"prid <RefID>\" and \"MoveTo player\"", 
+        "params": "<Actor/Object ID>"
+    }, 
+    {
+        "brief": "Play an animation (idle) on the specified actor.", 
+        "names": [
+            "PlayIdle"
+        ], 
+        "details": "Example: \"PlayIdle IdleOffsetArmsCrossedStart\". See the list of idles.", 
+        "params": "<Idle ID>"
+    }, 
+    {
+        "brief": "Push an actor away in a random direction.", 
+        "names": [
+            "PushActorAway"
+        ], 
+        "details": "Example: \"PushActorAway 14 1337\". Will push or launch your character in a random direction. If you enter negative amount, example: \"PushActorAway 0001A6B8 -200\", will pull the selected actor to your character position.", 
+        "params": "<Actor ID> <Number>"
+    }, 
+    {
+        "brief": "Revive/Reset targeted NPC or object.", 
+        "names": [
+            "RecycleActor"
+        ], 
+        "details": "Can be used to reset an NPCs reference/revive dead NPCs. If you've already looted a corpse, they may come back headless (especially Nords). Their inventory isn't reset, except for their weapon. Enemies will prioritize other NPCs of opposing factions (like Stormcloak vs Imperial), and ignore the player until the opposing NPCs are dead. The optional Destination Reference is untested, probably refers to coordinates or a cell id.\n\nWhen used on containers, it acts like \"ResetInventory\".\n\nWhen used on objects, it will reset them to their original positions and states. It can be convenient if you mess something up and want to restore the order.\n\nWhen used on the player, their inventory is not replaced, but items are added.", 
+        "params": "[destination reference]"
+    }, 
+    {
+        "brief": "Remove all items from a character's inventory.", 
+        "names": [
+            "RemoveAllItems"
+        ], 
+        "details": "E.g., \"player.RemoveAllItems\" will remove all items from your character's inventory or \"RemoveAllItems\" <click on character> for remove all items of particular character. Optionally, after the command, enter the reference ID of an actor or container to transfer all the items in question into the referred actor/container. Also see \"DuplicateAllItems\".", 
+        "params": "<Actor/Container ID>"
+    }, 
+    {
+        "brief": "Remove the specified amount of an item from a character's inventory.", 
+        "names": [
+            "RemoveItem"
+        ], 
+        "details": "E.g., \"player.RemoveItem 000669A5 5\" will remove five leeks from your player's inventory. Changes to an NPC's inventory will usually appear immediately if you're pickpocketing them when you open the console.", 
+        "params": "<Item ID> <Count>"
+    }, 
+    {
+        "brief": "Remove the specified perk from a character's skills.", 
+        "names": [
+            "RemovePerk"
+        ], 
+        "details": "For perk ID codes, see the page for the perk's corresponding skill, indexed at Skills.\n\nImportant note: To remove perks from an established tree, you will need to backtrack through the entire tree. Meaning, start from the top and work your way down. In perks with ranks, you will need to remove rank 5/5, then 4/5, etc. Also, using removeperk will only remove the perk. It will not refund the perk points.\n\nE.g., \"player.RemovePerk 000babe8\" will remove Barbarian rank 1/5.", 
+        "params": "<Perk ID>"
+    }, 
+    {
+        "brief": "Removes a specific spell from a character's spell book.", 
+        "names": [
+            "RemoveSpell"
+        ], 
+        "details": "For a spell's ID code, see the page for its corresponding magic school, indexed at Spells. For other applicable IDs, see: Powers and Abilities, Blessings, or Diseases.  Also works with powers, abilities, blessings, and diseases, but not shouts.\n\nE.g., \"player.RemoveSpell 00092c48\" will remove the \"Beast Form\" power from the player's spell book.", 
+        "params": "<Spell ID>"
+    }, 
+    {
+        "brief": "Reset an NPC's AI.", 
+        "names": [
+            "ResetAI"
+        ], 
+        "details": "Can be used to calm down a non-enemy NPC if you attack them. In battle, the enemy is forced to sheath their weapon, then pull it out again and reacquire their target", 
+        "params": ""
+    }, 
+    {
+        "brief": "Restore a character to full health.", 
+        "names": [
+            "ResetHealth"
+        ], 
+        "details": "Example: \"player.ResetHealth\" Restores your health to 100%", 
+        "params": ""
+    }, 
+    {
+        "brief": "Reset a container or a character's inventory.", 
+        "names": [
+            "ResetInventory"
+        ], 
+        "details": "Resets a character's inventory to its default. Example: If you use \"RemoveAllItems\" on an NPC and enter \"ResetInventory\" everything will respawn and re-equip to its defaults. Can be used to pickpocket the same item multiple times. Works on dead NPCs and containers/chests, so you can loot the same corpse/container multiple times. Containers are slightly randomized, so items may vary depending on the containers loot settings.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Restore the value of attribute by amount.", 
+        "names": [
+            "RestoreActorValue"
+        ], 
+        "details": "Restores a damaged skill or attribute up to its normal value. Example: lose 50 health and enter \"player.RestoreActorValue health 100\" and you recover 50 health since it can't restore more than its normal value. Doesn't fix attributes/skills damaged by \"ModAV\" or \"ForceAV\" or \"SetAV\"\n\nAlso see \"DamageActorValue\". The full list of attributes is provided at Actor Value Indices.", 
+        "params": "<Attribute> <Number>"
+    }, 
+    {
+        "brief": "Resurrect target actor.", 
+        "names": [
+            "Resurrect"
+        ], 
+        "details": "Unless you use this command the instant the NPC is killed, the game will still register the target as \"Dead\" and they will subsequently not be mentioned in dialogue and sometimes specifically referred to as \"Dead\" during a quest. Adding a tag of \"1\" at the end (i.e., \"Resurrect 1\") will make the target get up instead of vanishing and reappearing, thus allowing them to keep their equipment. [verification needed] If an NPC's corpse has vanished already, you will also need to enable the NPC. Using this on the player character will not dismiss the \"Load last save?\" screen, and the camera will behave as if you were still lying dead on the ground. However, if you use the resurrect command before the loading message appears, the player will revive, but the camera will be centered on the feet rather than the head. Note that accidentally using this command on yourself while you're still alive can also have unexpected consequences, among them losing the ability to dual-cast spells (which will be fixed on reload), and losing any blessing effects (but not the blessing itself - which can be complicated in the case of Standing Stones. The game will not let you restore that Standing Stone power unless you first visit another Standing Stone and come back.) NPCs who are dead at the beginning of the game (such as Mage) cannot be resurrected via this command.\n\nAlso see \"Kill\".", 
+        "params": "[1]"
+    }, 
+    {
+        "brief": "Makes the targeted actor say a specific dialog topic.", 
+        "names": [
+            "Say"
+        ], 
+        "details": "Useful for forcing bugged NPCs to say a specific dialog topic if entering the dialog window is impossible for some reason. Any scripts for the dialog topic will also run as if the actor had said it normally. May have unintended effects if the dialog topic is invalid for that particular NPC. E.g., \"Say DA04SeptimusBringBloodBranchTopic\".", 
+        "params": "<Dialog topic ID>"
+    }, 
+    {
+        "brief": "Change the selected actor's opacity.", 
+        "names": [
+            "SetActorAlpha"
+        ], 
+        "details": "Useful for repairing unwanted graphic glitches after adding and removing certain permanent spell effects. E.g., player.setactoralpha 100 will reset unwanted invisibility effects and make your character visible again.", 
+        "params": "<0-100>"
+    }, 
+    {
+        "brief": "Set value of attribute.", 
+        "names": [
+            "SetAV"
+        ], 
+        "details": "\"SetAV\" sets the level value of the attribute to the stated value. Example: You can \"player.setav block 100\" to set your Block to 100 and take advantage of having a high level Block without receiving any levels (and therefore any perks). The same works for dropping the skill level. You can also do it for Health, Stamina, or Magicka etc. And you can target it for an NPC by using prid <RefID> of an NPC first; then just type \"SetAV health 500\" to give the specified NPC 500 Health. \"SetAV speedmult <nn>\" sets the speed percentage of the targeted actor to nn. You may need to sprint or sneak/unsneak for it to take effect.\n\nAlso see \"ForceAV\" and \"ModAV\". The full list of attributes is provided at Actor Value Indices.", 
+        "params": "<Attribute> <Number>"
+    }, 
+    {
+        "brief": "Set a character as mortal (0) or immortal (1).", 
+        "names": [
+            "SetEssential"
+        ], 
+        "details": "This command can be used to make any NPC unkillable. When a character set as essential takes nearly fatal damage, they collapse onto their hands and knees (Also known as Bleedout) and stumble around for a period of time, instead of dying.\n\nNote that the base ID and not the ref ID must be used. The ref ID is what appears when clicking on an object with the console open. To find an NPC's base ID, however, you can either a) browse to their respective page (see: People and/or NPCs) or b) use the help function in-game to search for them by name, recording whatever value matches their name under the \"NPC_\" category of result. Once you have the base ID, enter the command using either 1 to set him/her immortal or 0 to set him/her mortal. For example, \"SetEssential a2c8e 1\" would set Lydia as immortal.\n\nBe careful when making an Essential NPC mortal, if they die you will likely be unable to access the associated quest or story. However, a simple save reload will fix if you haven't save over all the files where the character is still alive (and either non-essential or essential).\n\nRelated functions: To check whether an NPC is essential to begin with, select him/her in the console (so that the ref ID appears), and enter \"IsEssential\" - if the console returns \"1.00\", the NPC is essential.\n\nIt is also possible to set the player them self as essential with the base ID of 00000007, However upon entering the 'bleedout' stage, the player will sometimes not get back up (usually upon the first time in a new area or after having recently set yourself as essential), however, simply entering your inventory and drinking a health potion will fix this immediately (any health potion used during bleedout will return you to full health). Usually, your character will drop down to their hands and knees, and then immediately get back up with full health.", 
+        "params": "<Base ID> <0/1>"
+    }, 
+    {
+        "brief": "Set ghost mode for the targeted NPC.", 
+        "names": [
+            "SetGhost"
+        ], 
+        "details": "Makes the NPC immune to all combat mechanics such as melee attacks, spells, AOE, and shouts while active. The player can still collide with the NPC by running into them. For example: Serana is in ghost mode to hide her from all attacks until she becomes active in the Dawnguard questline.", 
+        "params": "<0/1>"
+    }, 
+    {
+        "brief": "Set game setting.", 
+        "names": [
+            "SetGS"
+        ], 
+        "details": "Doesn't seem to be preserved in saves; must be reset each time the game loads. Example: \"SetGS fJumpHeightMin <height>\" sets the jump height for the player.", 
+        "params": "<Setting> <Value>"
+    }, 
+    {
+        "brief": "Set NPC level.", 
+        "names": [
+            "SetLevel"
+        ], 
+        "details": "Just like other target commands, type prid <RefID> of an actor/NPC first. If you prefer to click on the NPC while in the command console, make sure the ID you see is of the targeted NPC and not an object.\n\nIf you input setlevel 1000 0 1 100 that NPC will be equal level you are and will level with you up to level 100 and will start at level 1 if you're level 1.", 
+        "params": "<Multiplier> <Modifier> <Min> <Max>"
+    }, 
+    {
+        "brief": "Set whether an area has been cleared.", 
+        "names": [
+            "SetLocationCleared"
+        ], 
+        "details": "You must use the location id; if you wish to clear Swindler's Den, for example, use 00018EE2, not the name. Also see \"GetLocationCleared\".", 
+        "params": "<Location ID> 1"
+    }, 
+    {
+        "brief": "Set the weight and updates the model to reflect the new weight.", 
+        "names": [
+            "SetNPCWeight"
+        ], 
+        "details": "Despite its name, this also works on the player's model. e.g. \"player.SetNPCWeight 0\" changes the player's appearance to be as if the \"Weight\" slider were all the way left. 100 would be all the way to the right.\n\nSaving and re-loading a game after it's been used on an NPC may result in neck seams, as NPC head meshes are pre-modeled and not procedurally generated to the new weight value.", 
+        "params": "<0-100>"
+    }, 
+    {
+        "brief": "Sets ownership of the targeted item.", 
+        "names": [
+            "SetOwnership"
+        ], 
+        "details": "You can set the owner of the targeted item with a faction ID or a character's base ID. If you don't add the parameter, the default owner would be yourself. This can be used to remove the \"stolen\" tag from any items. Simply drop the item on the ground, open the console, click on the item, and enter the command. It can be difficult to select certain items. Can also be used to remove the \"owned\" attribute of beds and gain the ownership of a stolen horse.", 
+        "params": "<ID>"
+    }, 
+    {
+        "brief": "Change a character's race.", 
+        "names": [
+            "SetRace"
+        ], 
+        "details": "Doing this will allow you to change the race of an actor. If \"player.SetRace\" is used, you can change your own race without using \"ShowRaceMenu\". Upon using this code, the character's hand will be bound like in the beginning of the game, but this can be undone by drawing a weapon. This will not mess up attributes/skills. Creatures are available as races as well (e.g., \"player.SetRace dragonrace\"), but most creatures will have a buggy camera position in third person. You can get most race codes with the help race 0 command. Use PageUp and PageDown to scroll to the races at the top of the list. Unlike most other commands, the race needs to be specified in plain text and not the race's BaseID (i.e. \"player.SetRace nordrace\"). See \"SetPlayerRace\" for additional details.\n\nPlayable Races: ArgonianRace ArgonianRaceVampire BretonRace BretonRaceVampire DarkElfRace DarkElfRaceVampire HighElfRace HighElfRaceVampire ImperialRace ImperialRaceVampire KhajiitRace KhajiitRaceVampire NordRace NordRaceVampire OrcRace OrcRaceVampire\nRedguardRace RedguardRaceVampire WoodElfRace WoodElfRaceVampire", 
+        "params": "<Race>"
+    }, 
+    {
+        "brief": "Change the relationship between two actors.", 
+        "names": [
+            "SetRelationshipRank"
+        ], 
+        "details": "0=acquaintance, 1=friend, 2=confidant, 3=ally, 4=lover, -1=rival, -2=foe, -3=enemy, -4=archnemesis. All other values are unassigned ranks and will default to \"acquaintance\".", 
+        "params": "<Target> <Number>"
+    }, 
+    {
+        "brief": "Scale size of target.", 
+        "names": [
+            "SetScale"
+        ], 
+        "details": "Scales the size of a chosen target. Starting from small 0.1, normal 1, and 10 at max size. Acceptable targets can be any NPCs or objects in the world. You cannot change the size of items.", 
+        "params": "<Number>"
+    }, 
+    {
+        "brief": "Set the current stage of the given quest.", 
+        "names": [
+            "SetStage"
+        ], 
+        "details": "Example: \"SetStage ms01 100\". The setstage command is useful for advancing broken quests, finishing quests instantly, or for skipping ahead to a certain point in a quest. You can find the quest's ID code, as well as the various stages of the quests and their corresponding stage numbers, on the respective quest page. To start, see the main index of Quests.", 
+        "params": "<Quest ID> <Stage>"
+    }, 
+    {
+        "brief": "A value of 1 will be unconscious.", 
+        "names": [
+            "SetUnconscious"
+        ], 
+        "details": "Example: \"SetUnconscious 1\" makes an NPC or the player stand in place as if it's in a trance or their AI is disabled. You can do whatever you want to them and they won't react. They remain that way until you use setunconscious 0. They will act like nothing happened, so if you steal from them and wake them back up it will be as if they didn't see anything. They can also wake up if you get their health to a critical level, and will either fight back or run away. The effect is equivalent to the player using wait and coming out of it early due to an attack.", 
+        "params": "<Number>"
+    }, 
+    {
+        "brief": "Display the base IDs of every item in a character's inventory.", 
+        "names": [
+            "ShowInventory"
+        ], 
+        "details": "These IDs can be used in the console to modify a character's or the player's inventory. E.g., with five Leeks in a person's inventory, \"player.ShowInventory\" will display \"5 - Leek (000669A5)\", and you can use \"player.AddItem 000669A5 5\" to obtain five more leeks.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Set HDR parameters.", 
+        "names": [
+            "shp"
+        ], 
+        "details": "The 9 HDR parameters are in floating point. Each one affects something different. The effects stay until you load a save or switch areas. Example: \"shp 1.00 0 0.50 0.01 9.00 .1 .99 100 1.0000\"", 
+        "params": "<1> <2> <3> <4> <5> <6> <7> <8> <9>"
+    }, 
+    {
+        "brief": "Set whether an actor should ignore friendly hits.", 
+        "names": [
+            "sifh"
+        ], 
+        "details": "E.g., \"sifh 1\" will make the selected actor ignore friendly hits.", 
+        "params": "<0/1>"
+    }, 
+    {
+        "brief": "Display stages of a quest.", 
+        "names": [
+            "sqs"
+        ], 
+        "details": "Lists all stages of that quest and shows if a stage is achieved.", 
+        "params": "<quest ID>"
+    }, 
+    {
+        "brief": "Stop combat with a targetted NPC.", 
+        "names": [
+            "StopCombat"
+        ], 
+        "details": "Stop all aggression from a NPC, if other NPCs in the faction are hostile, it will fight again", 
+        "params": ""
+    }, 
+    {
+        "brief": "Set the refraction value of the selected target.", 
+        "names": [
+            "str"
+        ], 
+        "details": "E.g., \"str 1.000000\" will set refraction to its maximum value, \"str 0.000001\" will make the target completely invisible, \"str 0.000000\" turns off refraction reverting the target to its normal appearance. \"str 0.000000\" will completely mess up a character's eyes and eyelashes. Can be used on any targetable object from NPC/player to pieces of the architecture.", 
+        "params": "<0-1.000000>"
+    }, 
+    {
+        "brief": "Teach a dragon shout.", 
+        "names": [
+            "TeachWord"
+        ], 
+        "details": "Teaches a specific dragon shout by code. Each level of a word has a specific code. Use the help command to find the shout's code, or see Dragon Shouts.", 
+        "params": "<Word>"
+    }, 
+    {
+        "brief": "Unequip item from selected NPC.", 
+        "names": [
+            "UnequipItem"
+        ], 
+        "details": "With the selected NPC you can use \"UnequipItem <ItemID>\" to get them to unequip an item but leave it in their inventory. The opposite command is \"EquipItem\", and works with the same basic syntax. No error results from unequipping an item the NPC doesn't have. The player-character equivalent command is \"player.UnequipItem\".", 
+        "params": "<Item ID>"
+    }, 
+    {
+        "brief": "Unlock the targeted object.", 
+        "names": [
+            "Unlock"
+        ], 
+        "details": "Unlocks the targeted door, container, etc., including \"Requires Key\"-level locked objects.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Unlock a dragon shout.", 
+        "names": [
+            "UnlockWord"
+        ], 
+        "details": "Unlocks a specific dragon shout by code. Each level of a word has a specific code. Use the help command to find the shout's code, or see Dragon Shouts.", 
+        "params": "<Word>"
+    }, 
+    {
+        "brief": "Execute a batch file.", 
+        "names": [
+            "bat"
+        ], 
+        "details": "Executes a .txt file with console commands in it, handy for certain otherwise tedious actions.", 
+        "params": "<File name>"
+    }, 
+    {
+        "brief": "Complete all quest stages.", 
+        "names": [
+            "caqs"
+        ], 
+        "details": "Finishes every quest in the game, not just the ones you've started, essentially completing the game. Not recommended for general use. May crash your game. Note: This will unlock several quest related Steam achievements if they have not been unlocked yet. See also: \"saq\".", 
+        "params": ""
+    }, 
+    {
+        "brief": "Transport to.", 
+        "names": [
+            "CenterOnCell", 
+            "coc"
+        ], 
+        "details": "Transports to the center of a named cell; i.e., if you want to go to Riverwood write \"coc Riverwood\" in the console. You can get most location codes with the help location 0 command. I.e. \"Help breezehome 0\" will tell you that the correct code is WhiterunBreezehome or that Sovngarde can be reached with Sovngarde01.\n\n\"coc qasmoke\" will transport to the Skyrim testing hall (for QA testing; inaccessible otherwise.) Note: The enchanted armor and weapons cabinets contain huge piles of items which can take some time to load; the game may appear to freeze for a while if you open one.", 
+        "params": "<Cell name>"
+    }, 
+    {
+        "brief": "Transport to.", 
+        "names": [
+            "CenterOnWorld", 
+            "cow"
+        ], 
+        "details": "Transports to the center of cell [cell x, cell y] in world space. The outdoor worldspace of Skyrim is Tamriel so to transport to the center of cell 5,7 in Tamriel you would put \"cow tamriel 5,7\" in the console. These points will put you at the stables or right in front of each city but not inside.", 
+        "params": "<Worldspace> <Cell X>,<Cell Y>"
+    }, 
+    {
+        "brief": "Clear screen blood.", 
+        "names": [
+            "csb"
+        ], 
+        "details": "Removes all blood from the screen. Useful when taking screenshots.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Re-enables player controls.", 
+        "names": [
+            "EnablePlayerControls"
+        ], 
+        "details": "Removes restrictions on player's control. Unlike the script command, this does not appear to allow controls to be disabled. Note: If used in carriage at the game start, unexpected bugs may occur or the game may crash.", 
+        "params": "<Movement> <Fighting> <POV> <Looking> <Sneaking> <Menu> <Activate> <Journal Tabs> <POV Type>"
+    }, 
+    {
+        "brief": "Set the Field of View.", 
+        "names": [
+            "fov"
+        ], 
+        "details": "Default is about 65 and using the command with no value will set the fov to 75. This change will reset if the game is restarted or if settings are changed by the Launcher. Values between 80 and 107 may be most suitable for wide screen PC users. 180 is the maximum, values higher will be accepted, but will still have the effects of 180.", 
+        "params": "<Angle>"
+    }, 
+    {
+        "brief": "Force weather.", 
+        "names": [
+            "fw"
+        ], 
+        "details": "Changes the current weather to the specified value (Note: Using this command will not permanently change the weather). It is only temporary, and will reset after some moving around. Typing ,1 after the formid without spaces will prolong the weather of your choice (for example, \"fw 10e1ec,1\").", 
+        "params": "<Form ID>[,1]"
+    }, 
+    {
+        "brief": "Returns the value of a single global game setting.", 
+        "names": [
+            "GetGlobalValue"
+        ], 
+        "details": "Example: \"GetGlobalValue DragonsReturned\" would tell you whether or not random dragon attacks will take place. See \"ShowGlobalVars\".", 
+        "params": "<Variable>"
+    }, 
+    {
+        "brief": "Checks if an object is in a specified cell.", 
+        "names": [
+            "GetInCellParam"
+        ], 
+        "details": "Example: \"GetInCellParam 5de24 14\" would tell you whether or not the player is in Helgen Keep. 0.00 = not present, 1.00 = present. Can be used to confirm if your character or an NPC is in a particular cell.", 
+        "params": "<Cell ID> <Object ID>"
+    }, 
+    {
+        "brief": "Returns the value of the stats shown in the ESC menu.", 
+        "names": [
+            "GetPCMiscStat", 
+            "GetPCMS"
+        ], 
+        "details": "Example: \"GetPCMS \"barters\"\" would tell you how many times you've gone shopping or \"GetPCMS \"days as a werewolf\"\" will tell you how many days you have been a werewolf. The quotation marks are required in the command to properly identify multiword stat IDs.", 
+        "params": "<Statistic>"
+    }, 
+    {
+        "brief": "The IDs of all items, spells, game settings, etc. which have the text in their name.", 
+        "names": [
+            "Help"
+        ], 
+        "details": "This is a useful command to find the item ID of an object, which can then be used with other console commands.\n\nE.g., \"help \"Daedric\"\" will list all items, etc. which have \"Daedric\" in their name. There is no need to put a \"0\" for the help command. Quotation marks are required for queries of more than one word.", 
+        "params": "<String>"
+    }, 
+    {
+        "brief": "Kill all actors.", 
+        "names": [
+            "KillAllActors"
+        ], 
+        "details": "Kills all loaded (in currently rendered cells) non-essential actors (NPCs and creatures) immediately. Essential actors will be knocked down. The code \"KillAll\" can be used for identical effect.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Loads a game save.", 
+        "names": [
+            "Load"
+        ], 
+        "details": "Loads the corresponding save. E.g.: \"Load autosave1\" will load last autosave. If the name contains spaces, it must be enclosed in double-quotes, E.g.: \"Load \"My Skyrim Save\"\". Useful when stuck, or if \"ShowRaceMenu\" is opened. See also: \"Save\".", 
+        "params": "<Name>"
+    }, 
+    {
+        "brief": "Adjusts the value of the stats shown in the ESC menu by amount.", 
+        "names": [
+            "ModPCMiscStat", 
+            "ModPCMS"
+        ], 
+        "details": "Modifies the Player Character Miscellaneous Statistic value by registering a permanent modifier (positive or negative) of the value stated. Example: \"ModPCMS \"days as a werewolf\" -100\" will modify how many days you have been a werewolf by a negative 100. The quotation marks are required in the command to properly identify multiword stat IDs.", 
+        "params": "<Statistic> <Number>"
+    }, 
+    {
+        "brief": "Purge cell buffer.", 
+        "names": [
+            "pcb"
+        ], 
+        "details": "This will free up used memory, often times increasing fps after any given amount of time in game. Best used while in interior cells. However, since it purges cached cells, any cells you visited in the recent past will have to be reloaded completely when reentered.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Creates a potion with up to 3 effects.", 
+        "names": [
+            "PlayerCreatePotion"
+        ], 
+        "details": "Example: \"PlayerCreatePotion 6b10C\" gives you a potion of improved nighteye for X seconds. Alchemy Skill determines effect magnitude (based on alchemy skill 1=1%/1Pt,) and duration (duration = Alchemy Skill +1 Sec). Some MGEF effects don't work with potions.\n\n\"DamageActorValue\" and \"ModAV\" will affect the magnitude of alchemy effects without messing with your level/skill progress.", 
+        "params": "<MGEF ID1> [MGEF ID2] [MGEF ID3]"
+    }, 
+    {
+        "brief": "Spawns an object with specified enchantments.", 
+        "names": [
+            "PlayerEnchantObject"
+        ], 
+        "details": "Example: \"PlayerEnchantObject 136D5 109637 109637\" would give you imperial armor with two magic resist enchantments.\n\nThe Magnitude used for any magic effect is set to your enchanting skill, so 85 enchanting skill = 85% magnitude,85 damage/+85 health/magicka/stamina, 85+1 sec duration(weapons only). \n\nAny effect with an MGEF ID can be added, including special effects normally restricted to NPCs and some perk effects. Perk MGEFs don't show up on equipment or passive effects, but still work. They also use enchanting skill instead of the perks usual value, and stack with the real perk.\n\nWeapons made through the console will always have about 11.5 charges (regardless of enchanting level), and can be recharged. Some effects don't require charges unless grouped with an effect that does require charges. When used on weapons some MGEF are toggled on hit (first hit= on,second hit= off), like improved nighteye.\n\nEnchanted weapons/equipment created with this command cannot be disenchanted, the game will tell you that you already have the effect.\n\n\"DamageActorValue\" and \"ModAV\" will affect the magnitude of enchantments without messing with your level/skill progress.", 
+        "params": "<Object ID> <MGEF ID> [MGEF ID]"
+    }, 
+    {
+        "brief": "Pick reference by ID.", 
+        "names": [
+            "prid", 
+            "PickReferenceID"
+        ], 
+        "details": "Select an existing copy of an object/creature/NPC using its reference FormID (the one associated with that particular placed object). All subsequent targeted commands will use this object as the target. This is the same as clicking on the object in the console, but can be used even if the object is invisible or in a different area.", 
+        "params": "<Form ID>"
+    }, 
+    {
+        "brief": "Fast quit.", 
+        "names": [
+            "qqq"
+        ], 
+        "details": "Quits Skyrim to desktop immediately without further prompting. This sometimes results in crashing or mouse click problems. Mouse problems can be resolved by re-opening and closing Skyrim.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Reset an entire cell.", 
+        "names": [
+            "ResetInterior"
+        ], 
+        "details": "This command will reset an entire dungeon or location to default, including monsters, traps, chests and loot. E.g., \"ResetInterior Stillborncave01\" or \"ResetInterior 00015206\" would reset the dungeon Stillborn Cave to default; all monsters, traps, and loot would be respawned. If you reset a cell you have just been to, you'll need to use pcb command (purge cell buffer) as well, or the game will reload the buffered version of the cell, with all the modifications you've made to it. Both editorID and formID are acceptable in this command. Using this command in player homes appears to reset the furnishings without clearing the contents of initially empty containers, however, all weapon racks and cases will be empty and mannequins will need to have their inventories removed and replaced. (viz., the bedroom chest)[verification needed]", 
+        "params": "<CellI D>"
+    }, 
+    {
+        "brief": "Refreshes all settings.", 
+        "names": [
+            "RefIni"
+        ], 
+        "details": "This command loads and re-applies all settings from Skyrim.ini and any .ini with filenames matching currently loaded .esp files.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Reset a quest.", 
+        "names": [
+            "ResetQuest"
+        ], 
+        "details": "This command will reset a quest. This command will set all stages of the quest to 0.", 
+        "params": "<Quest ID>"
+    }, 
+    {
+        "brief": "Start all quests", 
+        "names": [
+            "saq"
+        ], 
+        "details": "Begins every quest in the game and adds them all to your journal. Not recommended for non-experimental use due to the large number of quests. May crash your game. Note: This will unlock several quest related Steam achievements if they have not been unlocked yet. See also: \"caqs\"", 
+        "params": ""
+    }, 
+    {
+        "brief": "Write a <name> game save.", 
+        "names": [
+            "Save"
+        ], 
+        "details": "Save game to a named save <name>. If the name contains spaces, it must be enclosed in double-quotes, i.e. \"Save \"My Skyrim Save\"\". Note that this will overwrite an existing save of <name> without prompting.\n\nAppending the parameter \"1\" will create a file <name>.ess.txt and open a text editor upon it. This text file contains a lot of dumped data and takes a while to write out (15 minutes observed) - the console and game is unresponsive during that. See also: \"Load\".", 
+        "params": "<Name> [1]"
+    }, 
+    {
+        "brief": "Save settings to file.", 
+        "names": [
+            "SaveIni"
+        ], 
+        "details": "This command saves all current settings to an ini file in the Data folder. The file will be named after the last loaded plugin, and will thereafter only automatically load if that plugin is included in the load order.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Sets a global variable.", 
+        "names": [
+            "Set"
+        ], 
+        "details": "Sets the value for a global variable. See \"ShowGlobalVars\".", 
+        "params": "<Variable> to <Value>"
+    }, 
+    {
+        "brief": "Set player race.", 
+        "names": [
+            "SetPlayerRace"
+        ], 
+        "details": "Doing this will allow you to change your race without using \"ShowRaceMenu\". If ID is not provided race menu will appear.\n\nYou can get most race codes with the \"help race 0\" command. Use PageUp and PageDown to scroll to the races at the top of the list. Unlike most other commands, the race needs to be specified in plain text and not the race's BaseID (i.e. \"SetPlayerRace nordrace\"). Creatures are available as race as well, but most creatures will have a buggy camera position in 3rd person. \"SetRace racename\" can also be used. Upon using this code, the character's hand will be bound like in the beginning of the game, but this can be undone by drawing a weapon. Will mess up attributes/skills.", 
+        "params": "<Race>"
+    }, 
+    {
+        "brief": "Sets a quest variable.", 
+        "names": [
+            "SetPQV"
+        ], 
+        "details": "Sets the quest variable to something else, typically either true/false or a number. Use the \"sqv\" command to check all the current quest variables for a quest. E.g. \"SetPQV DLC1NPCMentalModel LockedIn_var False\".", 
+        "params": "<Quest ID> <Variable ID> <Value>"
+    }, 
+    {
+        "brief": "Switches the player or an NPC's gender.", 
+        "names": [
+            "SexChange"
+        ], 
+        "details": "Switches the player's gender; does not require a value. Can be used on an NPC if you target them. A fun thing to note is that this code does not change the face and voice of a character. Can be used on mannequins to show female outfits. It is possible to use this command to fix the lingering sound effect bug that some characters seem to suffer, just remember to use the command twice to return to your original gender.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Changes the time multiplier to a value for slow motion, and fast forward type effects.", 
+        "names": [
+            "SGTM"
+        ], 
+        "details": "Allows you to control the gamespeed, making it easier to capture screenshots of action on slower speeds. Causes issues above 2.0 and below 0.10, except when 0. This is different from timescale as timescale does not affect combat and movement and dialog where this setting does. Example: \"sgtm 2\" will make the game run in fastforward. Note: This setting is automatically reset back to 1 (default) when kill moves are executed.", 
+        "params": "<Number>"
+    }, 
+    {
+        "brief": "Shows all current game variables.", 
+        "names": [
+            "ShowGlobalVars"
+        ], 
+        "details": "This will list all current game variables, which can then be changed with the set command. You can scroll through the list with the PgUp and PgDown keys.", 
+        "params": ""
+    }, 
+    {
+        "brief": "Shows a message.", 
+        "names": [
+            "ShowMessage"
+        ], 
+        "details": "E.g., \"ShowMessage 000A81FF\" will display the \"Playtesting Temporary Message\".", 
+        "params": "<Message ID>"
+    }, 
+    {
+        "brief": "Opens the character creation menu or changes the player's race.", 
+        "names": [
+            "ShowRaceMenu"
+        ], 
+        "details": "Note: Using this command to alter one's race will reset skills and health/magicka/stamina to default levels. This command can be safely used to alter a character's appearance without causing any unwanted side-effects as long as race is not changed. However, it should be noted that upon completing your changes and choosing a name for your character, all temporary active effects (such as Gift of Charity or shrine blessings) will be removed. Racial resistances will no longer be listed in Active Effects until the game is loaded from the main menu, at which time racial resistances will be automatically reapplied. Permanent active effects such as those from guardian stones or perks will not be lost. Active effects granted from enchanted items will not be listed until the items are re-equipped.\n\nExample: \"ShowRaceMenu bretonrace\" will make your character into a Breton. This variation of \"ShowRaceMenu\" doesn't actually show the race menu, but instead works like \"SetPlayerRace <race>\". Skills bonuses/powers change to reflect new race, but it messes up skills/attributes like \"ShowRaceMenu\" past lv1. Setting race to \"nordrace\" from any other race seems to result in a no head glitch unless used from the chargen menu.", 
+        "params": "[Race]"
+    }, 
+    {
+        "brief": "Save PC Face.", 
+        "names": [
+            "spf"
+        ], 
+        "details": "Saves the player face i.e. slider settings in showracemenu into a text file in Skyrim folder, which can be later imported into Creation Kit. Do not use any file extension, .npc will be added automatically.", 
+        "params": "<File name>"
+    }, 
+    {
+        "brief": "Shows quest objectives and their states.", 
+        "names": [
+            "sqo"
+        ], 
+        "details": "Shows a human friendly list of active and completed quest objectives for currently active quests", 
+        "params": ""
+    }, 
+    {
+        "brief": "List quest ids and targets.", 
+        "names": [
+            "sqt"
+        ], 
+        "details": "List all active quest IDs and their targets. Useful for finding the \"questID\" parameter for targeted quest commands such as \"MoveToQT <QuestID>\"", 
+        "params": ""
+    }, 
+    {
+        "brief": "Set tint parameters.", 
+        "names": [
+            "stp"
+        ], 
+        "details": "The chroma value ranges from 0 to 1 and is inverted, so \"stp 1 1 1 1\" produces a black & white image, while \"stp 1 1 1 0\" disables tint filtering altogether.", 
+        "params": "<1> <2> <3> <Chroma>"
+    }
+]
