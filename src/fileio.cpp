@@ -29,8 +29,14 @@
 #include <utils/winutils.hpp>
 #include <charconv>
 
-static std::string const settings_location = plugin_directory () + "settings.json";
-static std::string const help_location = plugin_directory () + "help.json";
+static const struct {
+    std::filesystem::path
+        settings = plugin_directory () + "settings.json",
+        help_sse = plugin_directory () + "help_sse.json",
+        help_gui = plugin_directory () + "help_gui.json",
+        help_alias = plugin_directory () + "help_alias.json";
+}
+locations;
 
 //--------------------------------------------------------------------------------------------------
 
@@ -192,7 +198,7 @@ save_settings ()
 
         save_font (json, console.gui_font);
         save_font (json, console.log_font);
-        save_json (json, settings_location);
+        save_json (json, locations.settings);
     }
     catch (std::exception const& ex)
     {
@@ -209,7 +215,7 @@ load_settings ()
 {
     try
     {
-        auto json = load_json (settings_location);
+        auto json = load_json (locations.settings);
 
         console.gui_font.name = "Default";
         console.gui_font.scale = 1.f;
@@ -270,29 +276,32 @@ load_settings ()
 
 //--------------------------------------------------------------------------------------------------
 
-bool
-load_help_file ()
+static bool
+load_help_file (
+        std::filesystem::path const& path,
+        std::vector<std::string>& completers,
+        std::vector<char> &data,
+        std::vector<help_index>& indexes)
 {
     try
     {
-        std::vector<std::string> completers;
-        std::vector<char> help_data;
-        std::vector<help_index> help_indexes;
 
-        auto append_to_help = [&help_data] (std::string& s, unsigned max_size)
+        auto append_to_help = [&data] (std::string& s, unsigned max_size)
         {
             if (s.size () > max_size)
             {
                 log () << "Trimming down to " << max_size << " bytes: " << s << std::endl;
                 s.resize (max_size);
             }
-            help_data.insert (help_data.end (), s.cbegin (), s.cend ());
+            data.insert (data.end (), s.cbegin (), s.cend ());
         };
 
-        for (auto const& jcmd: load_json (help_location))
+        for (auto const& jcmd: load_json (path))
         {
-            help_index i;
+            if (jcmd.contains ("version"))
+                continue;
 
+            help_index i;
             bool gotn = false;
             for (auto const& jn: jcmd["names"])
             {
@@ -304,7 +313,7 @@ load_help_file ()
                 else
                 {
                     gotn = true;
-                    i.begin = help_data.size ();
+                    i.begin = data.size ();
                 }
                 append_to_help (n, help_index::names_size);
                 completers.emplace_back (std::move (n));
@@ -312,40 +321,62 @@ load_help_file ()
             if (!gotn)
                 throw std::runtime_error ("Missing valid 'names'.");
 
-            i.params = help_data.size () - i.begin;
-            if (auto s = jcmd.value ("param", std::string ()); trim_both (s, ' ').size ())
+            i.params = data.size () - i.begin;
+            if (auto s = jcmd.value ("params", std::string ()); trim_both (s, ' ').size ())
                 append_to_help (s, help_index::params_size);
 
-            i.brief = help_data.size () - (i.begin + i.params);
+            i.brief = data.size () - (i.begin + i.params);
             if (auto s = jcmd.value ("brief", std::string ()); trim_both (s, ' ').size ())
                 append_to_help (s, help_index::brief_size);
 
-            i.details = help_data.size () - (i.begin + i.params + i.brief);
+            i.details = data.size () - (i.begin + i.params + i.brief);
             if (auto s = jcmd.value ("details", std::string ()); trim_both (s, " \r\n").size ())
                 append_to_help (s, help_index::details_size);
 
-            i.end = help_data.size () - (i.begin + i.params + i.brief + i.details);
-            help_indexes.push_back (i);
+            i.end = data.size () - (i.begin + i.params + i.brief + i.details);
+            indexes.push_back (i);
         }
 
         /// Likely SSO, so speed more or less is fine, nor are many completers expected
         std::sort (completers.begin (), completers.end ());
         completers.erase (std::unique (completers.begin (), completers.end ()), completers.end ());
 
-        std::sort (help_indexes.begin (), help_indexes.end (), [&] (auto const& a, auto const& b) {
-                return std::string_view (&help_data[a.begin], a.params)
-                     < std::string_view (&help_data[b.begin], b.params);
+        std::sort (indexes.begin (), indexes.end (), [&] (auto const& a, auto const& b) {
+                return std::string_view (&data[a.begin], a.params)
+                     < std::string_view (&data[b.begin], b.params);
         });
-
-        console.help_data.swap (help_data);
-        console.help_indexes.swap (help_indexes);
-        console.completers.swap (completers);
     }
     catch (std::exception const& ex)
     {
-        log () << "Unable to load help file: " << ex.what () << std::endl;
+        log () << "Unable to load help file " << path << ": " << ex.what () << std::endl;
         return false;
     }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+
+bool
+load_help_files ()
+{
+    std::vector<std::string> completers;
+    std::vector<char> data;
+    std::vector<help_index> indexes;
+
+    if (load_help_file (locations.help_sse, completers, data, indexes))
+        console.sse_data.swap (data), console.sse_indexes.swap (indexes);
+    else return false;
+
+    data.clear (); indexes.clear ();
+
+    if (load_help_file (locations.help_gui, completers, data, indexes))
+        console.gui_data.swap (data), console.gui_indexes.swap (indexes);
+    else return false;
+
+    if (load_help_file (locations.help_alias, completers, data, indexes))
+        console.alias_data.swap (data), console.alias_indexes.swap (indexes);
+
+    console.completers.swap (completers);
     return true;
 }
 

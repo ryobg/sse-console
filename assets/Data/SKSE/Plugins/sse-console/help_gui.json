@@ -1,0 +1,90 @@
+[
+    {
+        "version": {
+            "major": 1,
+            "minor": 1,
+            "patch": 0,
+            "timestamp": "2020-09-08T11:30:00.000000+00:00"
+        }
+    },
+    {
+        "brief": "Copy the Log to Clipboard.", 
+        "names": [
+            "/copy"
+        ], 
+        "details": "Copy the current content in the Log window into the Windows Clipboard. Same as pressing \"Log\" -> \"Copy\".", 
+        "params": ""
+    }, 
+    {
+        "brief": "Load a log file.", 
+        "names": [
+            "/load"
+        ], 
+        "details": "Loads a SSE Console log file into the current Log window, replacing its content. The parameter needs not the .log extension (e.g. \"/load default\"). Same as pressing \"Log\" -> \"Load\".", 
+        "params": "<file name>"
+    }, 
+    {
+        "brief": "Save a log file.", 
+        "names": [
+            "/save"
+        ], 
+        "details": "Takes the current Log window content and saves it as a file. Filters are ignored. The parameter passed needs not the .log extension (e.g. \"/save default\"). Same as pressing \"Log\" -> \"Save\".", 
+        "params": "<file name>"
+    }, 
+    {
+        "brief": "Clears the Log.", 
+        "names": [
+            "/clear"
+        ], 
+        "details": "Clears the whole Log window content, restarts the I/O counters. Same as pressing \"Log\" -> \"Clear\".", 
+        "params": ""
+    }, 
+    {
+        "brief": "Filters the Log.", 
+        "names": [
+            "/filter"
+        ], 
+        "details": "Applies the passed text as filter to the Log window content. Same as typing in \"Main window\" -> \"Filter\".", 
+        "params": "<text>"
+    }, 
+    {
+        "brief": "Filters the Help: Skyrim.", 
+        "names": [
+            "/filter-sse"
+        ], 
+        "details": "Applies the passed text as filter to the Help: Skyrim commands window content. Same as typing in \"Help\" -> \"Skyrim\" -> \"Filter\".", 
+        "params": "<text>"
+    }, 
+    {
+        "brief": "Filters the Help: GUI.", 
+        "names": [
+            "/filter-gui"
+        ], 
+        "details": "Applies the passed text as filter to the Help: GUI commands window content. Same as typing in \"Help\" -> \"GUI\" -> \"Filter\".", 
+        "params": "<text>"
+    }, 
+    {
+        "brief": "Filters the Help: Alias.", 
+        "names": [
+            "/filter-alias"
+        ], 
+        "details": "Applies the passed text as filter to the Help: Alias commands window content. Same as typing in \"Help\" -> \"Alias\" -> \"Filter\".", 
+        "params": "<text>"
+    }, 
+    {
+        "brief": "Creates an alias.", 
+        "names": [
+            "/alias"
+        ], 
+        "details": "Provides an way to short type more complex parameterized Skyrim commands. For example, \"/alias flames player.equipspell 12fcd left\" (equip Flames to player's left hand) will allow you to type in the console: \".flames\" (you may use auto-complete) instead of the whole command.\n\nPositional arguments are also allowed: \"/alias cow cow tamriel %1,%2\" will allow you to type in the console from now on something like \".cow 4 -4\" so you are teleported to Whiterun.\n\nNote how all alias commands start with the dot '.' symbol when typed in the console.", 
+        "params": "<name> <command>"
+    },
+    {
+        "brief": "Deletes an alias.", 
+        "names": [
+            "/alias-delete"
+        ], 
+        "details": "Deletes a previously created alias.", 
+        "params": "<name>"
+    } 
+]

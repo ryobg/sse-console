@@ -1,5 +1,13 @@
 [
     {
+        "version": {
+            "major": 1,
+            "minor": 0,
+            "patch": 0,
+            "timestamp": "2020-09-06T11:44:32.322922+00:00"
+        }
+    },
+    {
         "brief": "See the SKSE version", 
         "names": [
             "GetSKSEVersion"
@@ -824,7 +832,7 @@
             "EnablePlayerControls"
         ], 
         "details": "Removes restrictions on player's control. Unlike the script command, this does not appear to allow controls to be disabled. Note: If used in carriage at the game start, unexpected bugs may occur or the game may crash.", 
-        "params": "<Movement> <Fighting> <POV> <Looking> <Sneaking> <Menu> <Activate> <Journal Tabs> <POV Type>"
+        "params": "<Move><Fight><POV><Look><Sneak><Menu><Active><Journal><Type>"
     }, 
     {
         "brief": "Set the Field of View.", 

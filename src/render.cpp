@@ -33,22 +33,19 @@
 //--------------------------------------------------------------------------------------------------
 
 static std::vector<char> input_text_buffer;
-static std::vector<char> filter_text_buffer;
-static std::vector<char> filter_help_buffer;
 
 static int current_history;
 
-static std::vector<log_index> const* filtered_log;
 static records_filter<log_index> log_filter;
-
-static std::vector<help_index> const* filtered_help;
-static records_filter<help_index> help_filter;
+static records_filter<help_index> sse_filter, gui_filter, alias_filter;
 
 static render_load_files render_load_log;
 static render_load_files render_load_run;
 
 static bool scroll_to_bottom;
-static bool show_help;
+static bool show_sse_help;
+static bool show_gui_help;
+static bool show_alias_help;
 static bool show_settings;
 static bool show_save_log;
 static bool log_to_clipboard;
@@ -65,21 +62,20 @@ setup_render ()
     top_window = (HWND) imgui.igGetIO ()->ImeWindowHandle;
     input_text_buffer.clear ();
     input_text_buffer.resize (1024, '\0');
-    filter_text_buffer.clear ();
-    filter_text_buffer.resize (256, '\0');
-    filter_help_buffer.clear ();
-    filter_help_buffer.resize (256, '\0');
     current_history = 0;
-    filtered_log = nullptr;
     log_filter.init (&console.log_data, &console.log_indexes, { 3, 4, 6 });
-    help_filter.init (&console.help_data, &console.help_indexes, { 3, 4, 6 });
+    sse_filter.init (&console.sse_data, &console.sse_indexes, { 3, 4, 6 });
+    gui_filter.init (&console.gui_data, &console.gui_indexes, { 3, 4, 6 });
+    alias_filter.init (&console.alias_data, &console.alias_indexes, { 3, 4, 6 });
     render_load_log.init ("SSE Console: Load", {".log"});
     render_load_run.init ("SSE Console: Run", {".log", ".txt"});
     show_settings = false;
     show_save_log = false;
     button_size = ImVec2 {0, 0};
     log_to_clipboard = false;
-    show_help = false;
+    show_sse_help = false;
+    show_gui_help = false;
+    show_alias_help = false;
     scroll_to_bottom = false;
     return true;
 }
@@ -279,30 +275,28 @@ render_settings ()
 //--------------------------------------------------------------------------------------------------
 
 static void
-render_help ()
+render_help (const char* title, bool* show, records_filter<help_index>& filter)
 {
-    if (imgui.igBegin ("SSE Console: Help", &show_help, 0))
+    if (imgui.igBegin (title, show, 0))
     {
         imgui.igTextUnformatted (" Filter:", nullptr);
         imgui.igSameLine (0, -1);
         imgui.igSetNextItemWidth (-1);
         if (imgui.igInputText ("##Filter",
-                    filter_help_buffer.data (), int (filter_help_buffer.size ()),
+                    filter.buffer.data (), int (filter.buffer.size ()),
                     0, &filter_text_callback, nullptr))
         {
-            filtered_help = help_filter.update (filter_help_buffer.data ());
+            filter.update (filter.buffer.data ());
         }
 
         imgui.igBeginChild ("##Help", ImVec2 {0, 0}, false, 0);
-        auto const* display_records = filtered_help ? filtered_help : &console.help_indexes;
-        auto clipper = imgui.ImGuiListClipper_ImGuiListClipper (int (display_records->size ()), -1);
-        while (imgui.ImGuiListClipper_Step (clipper))
-            for (int i = clipper->DisplayStart; i < clipper->DisplayEnd; ++i)
+        // See #render_log() for why this chews FPS
+        auto const* display_records = filter.current_indexes ();
+        for (std::size_t i = 0, n = display_records->size (); i < n; ++i)
         {
             auto [names, params, brief, details, end] =
-                extract_message (console.help_data, (*display_records)[i]);
+                extract_message (*filter.source_data (), (*display_records)[i]);
 
-            imgui.igPushTextWrapPos (0.f);
             imgui.igText ("");
             int pops = 0;
             imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_names_color); ++pops;
@@ -312,6 +306,7 @@ render_help ()
                 imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_params_color); ++pops;
                 imgui.igTextUnformatted (params, brief);
             }
+            imgui.igPushTextWrapPos (0.f);
             imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_brief_color); ++pops;
             imgui.igTextUnformatted (brief, details);
             imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_details_color); ++pops;
@@ -319,7 +314,6 @@ render_help ()
             imgui.igPopStyleColor (pops);
             imgui.igPopTextWrapPos ();
         }
-        imgui.ImGuiListClipper_destroy (clipper);
         imgui.igEndChild ();
     }
     imgui.igEnd ();
@@ -346,7 +340,7 @@ render_log ()
     // record and item spacing. Another likely solution is to find which change and expose of the
     // ImGui internals will sove the problem during the SetScrollHereY. Usage of the log file
     // saving/loading features are suggested to workaround the fps loss.
-    auto const* display_records = filtered_log ? filtered_log : &console.log_indexes;
+    auto const* display_records = log_filter.current_indexes ();
     for (std::size_t i = 0, n = display_records->size (); i < n; ++i)
     {
         auto ndx = (*display_records)[i];
@@ -394,7 +388,7 @@ execute_command (std::string cmd)
     skyrim_console::execute (cmd);
     record_log_message (false, skyrim_log::last_message ());
     current_history = console.log_indexes.size ();
-    filtered_log = log_filter.update (filter_text_buffer.data (), true);
+    log_filter.update (log_filter.buffer.data (), true);
     scroll_to_bottom = true;
 }
 
@@ -491,7 +485,6 @@ void render (int active)
                 console.log_data.clear ();
                 console.log_indexes.clear ();
                 console.counter_in = console.counter_out = 0;
-                filtered_log = nullptr;
                 current_history = 0;
                 imgui.igCloseCurrentPopup ();
             }
@@ -503,8 +496,26 @@ void render (int active)
             show_settings = true;
 
         imgui.igSameLine (0, -1);
-        if (imgui.igButton ("Help", button_size))
-            show_help = true;
+        imgui.igButton ("Help", button_size);
+        if (imgui.igBeginPopupContextItem ("##Help popup", 0))
+        {
+            if (imgui.igButton ("Skyrim##Help popup", button_size))
+            {
+                show_sse_help = true;
+                imgui.igCloseCurrentPopup ();
+            }
+            if (imgui.igButton ("GUI##GUI popup", button_size))
+            {
+                show_gui_help = true;
+                imgui.igCloseCurrentPopup ();
+            }
+            if (imgui.igButton ("Aliases##GUI popup", button_size))
+            {
+                show_alias_help = true;
+                imgui.igCloseCurrentPopup ();
+            }
+            imgui.igEndPopup ();
+        }
 
         imgui.igSameLine (0, -1);
         imgui.igTextUnformatted (" Filter:", nullptr);
@@ -512,10 +523,10 @@ void render (int active)
         imgui.igSameLine (0, -1);
         imgui.igSetNextItemWidth (-1);
         if (imgui.igInputText ("##Filter",
-                    filter_text_buffer.data (), int (filter_text_buffer.size ()),
+                    log_filter.buffer.data (), int (log_filter.buffer.size ()),
                     0, &filter_text_callback, nullptr))
         {
-            filtered_log = log_filter.update (filter_text_buffer.data ());
+            log_filter.update (log_filter.buffer.data ());
         }
 
         // New line
@@ -529,10 +540,9 @@ void render (int active)
     if (auto f = render_load_log.update (); !f.empty ())
         if (load_log_file (f))
         {
-            filtered_log = nullptr;
             current_history = 0;
             log_filter.clear ();
-            filtered_log = log_filter.update (filter_text_buffer.data (), true);
+            log_filter.update (log_filter.buffer.data (), true);
         }
 
     if (auto f = render_load_run.update (); !f.empty ())
@@ -545,8 +555,12 @@ void render (int active)
         render_save_log ();
     if (show_settings)
         render_settings ();
-    if (show_help)
-        render_help ();
+    if (show_sse_help)
+        render_help ("SSE Console: Skyrim commands", &show_sse_help, sse_filter);
+    if (show_gui_help)
+        render_help ("SSE Console: GUI commands", &show_gui_help, gui_filter);
+    if (show_alias_help)
+        render_help ("SSE Console: Aliases", &show_alias_help, alias_filter);
 
     imgui.igPopFont ();
 }

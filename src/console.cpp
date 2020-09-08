@@ -57,7 +57,7 @@ setup ()
     if (!setup_render ())
         return false;
 
-    if (!load_help_file ()) // Not mandatory, but tells about broken setup.
+    if (!load_help_files ())
         return false;
 
     load_log_file (plugin_directory () + "default.log");

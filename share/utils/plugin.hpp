@@ -45,6 +45,7 @@
 #include <string>
 #include <fstream>
 #include <array>
+#include <filesystem>
 
 //--------------------------------------------------------------------------------------------------
 
@@ -105,10 +106,10 @@ struct relocation
 //--------------------------------------------------------------------------------------------------
 
 /// Adds also the #plugin_version() info
-void save_json (nlohmann::json& json, std::string const& file);
+void save_json (nlohmann::json& json, std::filesystem::path const& file);
 
 /// Empty if no file, throws on bad json though.
-nlohmann::json load_json (std::string const& file);
+nlohmann::json load_json (std::filesystem::path const& file);
 
 //--------------------------------------------------------------------------------------------------
 

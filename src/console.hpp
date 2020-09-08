@@ -99,9 +99,11 @@ struct console_t
     int counter_in, counter_out;
 
     std::vector<std::string> completers; ///< Used in auto-completion
-    std::vector<char> help_data;
-    std::vector<help_index> help_indexes;
+
     std::uint32_t help_names_color, help_params_color, help_brief_color, help_details_color;
+
+    std::vector<char> sse_data, gui_data, alias_data;
+    std::vector<help_index> sse_indexes, gui_indexes, alias_indexes;
 
     std::vector<std::string> commands;  ///< Queue of commands currently running
     int execution_delay;                ///< In milliseconds, wrt to #commands
@@ -114,7 +116,7 @@ bool load_log_file (std::filesystem::path const& filename);
 bool load_run_file (std::filesystem::path const& filename);
 bool load_settings ();
 bool save_settings ();
-bool load_help_file ();
+bool load_help_files ();
 
 bool setup ();
 bool setup_render ();
@@ -167,23 +169,27 @@ public:
         splits.insert (splits.end (), segments.begin (), segments.end ());
         source_filter = indexes;
         source_text = text;
+        current_filter = source_filter;
+        buffer.clear ();
+        buffer.resize (256, '\0');
     }
 
     /// When the indexes/text are reset outside
     void clear ()
     {
+        current_filter = source_filter;
         std::fill (chars.begin (), chars.end (), "");
         std::fill (filters.begin (), filters.end (), std::vector<IndexT> ());
     }
 
-    std::vector<IndexT> const* update (const char* filter_text, bool force_update = false)
+    void update (const char* filter_text, bool force_update = false)
     {
         auto text = uppercase_string (trimmed_both (filter_text, ' '));
 
+        current_filter = source_filter;
         if (text.size () < splits[0] || source_filter->size () < 2)
-            return nullptr;
+            return;
 
-        auto previous = source_filter;
         for (std::size_t i = 0, n = filters.size (); i < n; ++i)
         {
             if (force_update || text.size () >= splits[i])
@@ -193,16 +199,26 @@ public:
                 if (text.compare (0, text_end, chars[i]))
                 {
                     chars[i] = text.substr (0, text_end);
-                    filter (*previous, filters[i], chars[i].data ());
+                    filter (filters[i], chars[i].data ());
                 }
-                previous = &filters[i];
+                current_filter = &filters[i];
             }
         }
-        return previous;
+    }
+
+    std::vector<char> buffer;   ///< Moved in here the GUI input text field storage
+
+    std::vector<IndexT> const* current_indexes () const {
+        return current_filter;
+    }
+
+    std::vector<char> const* source_data () const {
+        return source_text;
     }
 
 private:
 
+    std::vector<IndexT> const* current_filter;
     std::vector<char> const* source_text;
     std::vector<IndexT> const* source_filter;
     std::vector<std::string> chars;
@@ -210,11 +226,11 @@ private:
     std::vector<std::size_t> splits;
 
     // Go through the real source of text and find matches
-    void filter (std::vector<IndexT> const& src, std::vector<IndexT>& dst, const char* txt)
+    void filter (std::vector<IndexT>& dst, const char* txt)
     {
         dst.clear ();
         auto s = uppercase_string (txt);
-        std::copy_if (src.cbegin (), src.cend (), std::back_inserter (dst),
+        std::copy_if (current_filter->cbegin (), current_filter->cend (), std::back_inserter (dst),
                 [&s, this] (IndexT const& n)
         {
             auto t = extract_message (*source_text, n);

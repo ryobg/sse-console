@@ -31,7 +31,7 @@
 //--------------------------------------------------------------------------------------------------
 
 void
-save_json (nlohmann::json& json, std::string const& file)
+save_json (nlohmann::json& json, std::filesystem::path const& file)
 {
     int maj, min, patch;
     const char* timestamp;
@@ -61,7 +61,7 @@ save_json (nlohmann::json& json, std::string const& file)
 //--------------------------------------------------------------------------------------------------
 
 nlohmann::json
-load_json (std::string const& file)
+load_json (std::filesystem::path const& file)
 {
     try
     {
