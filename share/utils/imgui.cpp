@@ -148,8 +148,7 @@ std::filesystem::path render_load_files::update ()
         if (imgui.igButton ("Load", button_size) && unsigned (selection) < names.size ())
         {
             show = false;
-            target = plugin_directory () + names[selection]
-                + (extensions.size () == 1 ? extensions[0] : std::string ());
+            target = names[selection] + (extensions.size () == 1 ? extensions[0] : std::string ());
         }
         if (imgui.igButton ("Cancel", button_size))
             show = false;

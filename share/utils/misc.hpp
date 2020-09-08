@@ -31,41 +31,67 @@
 #define UTILS_MISC_HPP
 
 #include <string>
+#include <vector>
 
 //--------------------------------------------------------------------------------------------------
 
 // trim from end of string (right)
-template<class CharT, class T>
-constexpr std::basic_string<CharT>&
-trim_end (std::basic_string<CharT>& s, T const& t)
+template<class S, class T>
+constexpr decltype (auto)
+trim_end (S&& s, T const& t)
 {
     s.erase (s.find_last_not_of (t) + 1);
     return s;
 }
 
 // trim from beginning of string (left)
-template<class CharT, class T>
-constexpr std::basic_string<CharT>&
-trim_begin (std::basic_string<CharT>& s, T const& t)
+template<class S, class T>
+constexpr decltype (auto)
+trim_begin (S&& s, T const& t)
 {
     s.erase (0, s.find_first_not_of (t));
     return s;
 }
 
 // trim from both ends of string (right then left)
-template<class CharT, class T>
-constexpr std::basic_string<CharT>&
-trim_both (std::basic_string<CharT>& s, T const& t)
+template<class S, class T>
+constexpr decltype (auto)
+trim_both (S&& s, T const& t)
 {
     return trim_begin (trim_end (s, t), t);
 }
 
 template<class S, class T>
-constexpr auto
+constexpr decltype (auto)
 trimmed_both (S const& s, T const& t)
 {
     std::basic_string b (s);
     return trim_begin (trim_end (b, t), t);
+}
+
+//--------------------------------------------------------------------------------------------------
+
+template<class CharT, class T>
+auto
+split (std::basic_string<CharT> const& s, T const& t)
+{
+    typedef typename std::basic_string<CharT> string_type;
+
+    std::vector<string_type> v;
+    std::size_t i = 0;
+
+    for (auto k = s.find_first_of (t, i); k != string_type::npos; )
+    {
+        if (k != i)
+            v.emplace_back (s, i, k-i);
+        i = k+1;
+        k = s.find_first_of (t, i);
+    }
+
+    if (i < s.size ())
+        v.emplace_back (s, i, s.size () - i);
+
+    return v;
 }
 
 //--------------------------------------------------------------------------------------------------

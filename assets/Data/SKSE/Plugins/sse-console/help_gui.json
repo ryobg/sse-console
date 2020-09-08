@@ -8,6 +8,22 @@
         }
     },
     {
+        "brief": "Run a script file.", 
+        "names": [
+            "/run"
+        ], 
+        "details": "Loads a SSE Console log file or any other plain text file and starts executing each line. There is a tunable interval, in \"Settings\", upon which the commands will be executed. The parameter needs a .log or .txt file extension appended (e.g. \"/run default.log\"). Same as pressing \"Run\".\n\nNote: You can run in endless loop if you run a script which run itself! Use \"run-enough\" to stop that.", 
+        "params": "<file name>"
+    }, 
+    {
+        "brief": "Stop the running script.", 
+        "names": [
+            "/run-enough"
+        ], 
+        "details": "This will stop any currently running script. The queue of commands will be cleared and the timer at which the commands executed, stopped. Use to escape long running tasks or endless loops of scripts which call upon themselves.", 
+        "params": ""
+    }, 
+    {
         "brief": "Copy the Log to Clipboard.", 
         "names": [
             "/copy"
@@ -76,7 +92,7 @@
         "names": [
             "/alias"
         ], 
-        "details": "Provides an way to short type more complex parameterized Skyrim commands. For example, \"/alias flames player.equipspell 12fcd left\" (equip Flames to player's left hand) will allow you to type in the console: \".flames\" (you may use auto-complete) instead of the whole command.\n\nPositional arguments are also allowed: \"/alias cow cow tamriel %1,%2\" will allow you to type in the console from now on something like \".cow 4 -4\" so you are teleported to Whiterun.\n\nNote how all alias commands start with the dot '.' symbol when typed in the console.", 
+        "details": "Provides an way to short type more complex parameterized Skyrim commands. For example, \"/alias flames player.equipspell 12fcd left\" (equip Flames to player's left hand) will allow you to type in the console: \".flames\" (you may use auto-complete) instead of the whole command.\n\nPositional arguments are also allowed: \"/alias cow cow tamriel <cell-x>,<cell-y>\" will allow you to type in the console from now on something like \".cow 4 -4\" so you are teleported to Whiterun.\n\nNote how all alias commands start with the dot '.' symbol when typed in the console.\n\nWhite space is used as argument separator, therefore you can't pass arguments with spaces inside.", 
         "params": "<name> <command>"
     },
     {

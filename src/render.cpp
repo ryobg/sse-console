@@ -54,6 +54,8 @@ static ImVec2 button_size;  ///< Public to keep consistency across windows
 /// Current HWND, used for timer management
 static HWND top_window = nullptr;
 
+static void execute_command (std::string cmd);
+
 //--------------------------------------------------------------------------------------------------
 
 bool
@@ -218,7 +220,7 @@ render_save_log ()
             auto base = trimmed_both (name.data (), " ");
             if (base.size ())
             {
-                save_log_file (plugin_directory () + base + ".log");
+                execute_command ("/save " + base);
                 show_save_log = false;
             }
         }
@@ -307,10 +309,16 @@ render_help (const char* title, bool* show, records_filter<help_index>& filter)
                 imgui.igTextUnformatted (params, brief);
             }
             imgui.igPushTextWrapPos (0.f);
-            imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_brief_color); ++pops;
-            imgui.igTextUnformatted (brief, details);
-            imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_details_color); ++pops;
-            imgui.igTextUnformatted (details, end);
+            if (brief != details)
+            {
+                imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_brief_color); ++pops;
+                imgui.igTextUnformatted (brief, details);
+            }
+            if (details != end)
+            {
+                imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_details_color); ++pops;
+                imgui.igTextUnformatted (details, end);
+            }
             imgui.igPopStyleColor (pops);
             imgui.igPopTextWrapPos ();
         }
@@ -384,9 +392,190 @@ execute_command (std::string cmd)
         return;
 
     record_log_message (true, cmd);
-    skyrim_log::last_message ("");
-    skyrim_console::execute (cmd);
-    record_log_message (false, skyrim_log::last_message ());
+
+    std::string result;
+    if (cmd[0] == '/')
+    {
+        extern void update_timer (int);
+
+        std::string param;
+        auto match_param = [&cmd, &param] (std::string_view txt)
+        {
+            if (txt.size () <= cmd.size () && cmd.rfind (txt, 0) == 0)
+            {
+                param = trim_begin (cmd.substr (txt.size ()), ' ');
+                return true;
+            }
+            return false;
+        };
+
+        if (match_param ("/run "))
+        {
+            if (load_run_file (plugin_directory () + param) && !console.commands.empty ())
+                update_timer (console.execution_delay);
+            else result = "Unable to run script file.";
+        }
+        else if (cmd == "/run-enough")
+        {
+            console.commands.clear ();
+            update_timer (0);
+        }
+        else if (cmd == "/copy")
+            log_to_clipboard = true;
+        else if (cmd == "/clear")
+        {
+            log_filter.reset ();
+            console.log_data.clear ();
+            console.log_indexes.clear ();
+            console.counter_in = console.counter_out = 0;
+            current_history = 0;
+        }
+        else if (match_param ("/load "))
+        {
+            if (load_log_file (plugin_directory () + param + ".log"))
+            {
+                current_history = 0;
+                log_filter.reset ();
+            }
+            else result = "Unable to load log file.";
+        }
+        else if (match_param ("/save "))
+            save_log_file (plugin_directory () + param + ".log");
+
+        else if (match_param ("/filter") && param.size ()+1 < log_filter.buffer.size ())
+            *std::copy (param.cbegin (), param.cend (), log_filter.buffer.begin ()) = '\0';
+        else if (match_param ("/filter-gui") && param.size ()+1 < gui_filter.buffer.size ())
+            *std::copy (param.cbegin (), param.cend (), gui_filter.buffer.begin ()) = '\0';
+        else if (match_param ("/filter-sse") && param.size ()+1 < sse_filter.buffer.size ())
+            *std::copy (param.cbegin (), param.cend (), sse_filter.buffer.begin ()) = '\0';
+        else if (match_param ("/filter-alias") && param.size ()+1 < alias_filter.buffer.size ())
+            *std::copy (param.cbegin (), param.cend (), alias_filter.buffer.begin ()) = '\0';
+
+        else if (match_param ("/alias-delete ") && param.size () > 1)
+        {
+            param = '.' + param;
+            auto old_size = console.completers.size ();
+            for (std::size_t i = 0, ni = console.alias_indexes.size (); i < ni; ++i)
+            {
+                auto [n, p, b, d, e] =
+                    extract_message (console.alias_data, console.alias_indexes[i]);
+
+                std::string name (n, p);
+                if (param == name)
+                {
+                    console.alias_data.erase (
+                            console.alias_data.begin () + (n - &console.alias_data[0]),
+                            console.alias_data.begin () + (e - &console.alias_data[0]));
+                    console.alias_indexes.erase (console.alias_indexes.begin () + i);
+                    for (ni -= 1; i < ni; ++i)
+                        console.alias_indexes[i].begin -= e - n;
+                    alias_filter.reset ();
+                    alias_filter.update (alias_filter.buffer.data (), true);
+
+                    console.completers.erase (std::remove (
+                                console.completers.begin (), console.completers.end (), name),
+                            console.completers.end ());
+
+                    save_aliases ();
+                    break;
+                }
+            }
+            if (old_size == console.completers.size ())
+                result = "Unable to delete an alias.";
+        }
+        else if (match_param ("/alias "))
+        {
+            auto old_size = console.completers.size ();
+            if (auto i = param.find (' '); i != std::string::npos && i+1 < param.size ())
+            {
+                auto n = '.' + param.substr (0, i);
+                auto b = trim_both (param.substr (i), ' ');
+                if (b.size () && std::find (
+                            console.completers.cbegin (), console.completers.cend (), n)
+                        == console.completers.cend ())
+                {
+                    help_index ndx;
+                    ndx.begin = console.alias_data.size ();
+                    std::string p;
+                    for (std::size_t i = 0, n = b.size (); i < n; ++i)
+                        if (auto j = b.find ('<', i); j != std::string::npos)
+                            if (auto k = b.find ('>', j+1); k != std::string::npos)
+                                p += b.substr (j, k-j+1) + " ", i = k;
+                    trim_end (p, ' ');
+                    ndx.params = n.size ();
+                    ndx.brief = p.size ();
+                    ndx.details = b.size ();
+                    ndx.end = 0;
+
+                    console.alias_data.insert (console.alias_data.end (), n.cbegin (), n.cend ());
+                    console.alias_data.insert (console.alias_data.end (), p.cbegin (), p.cend ());
+                    console.alias_data.insert (console.alias_data.end (), b.cbegin (), b.cend ());
+                    console.alias_indexes.push_back (ndx);
+                    console.completers.push_back (n);
+
+                    alias_filter.reset ();
+                    alias_filter.update (alias_filter.buffer.data (), true);
+                    save_aliases ();
+                }
+            }
+            if (old_size == console.completers.size ())
+                result = "Unable to create an alias.";
+        }
+        else result = "Unknown GUI command.";
+
+        cmd.clear ();
+    }
+    else if (cmd[0] == '.' && cmd.size () > 1)
+    {
+        auto actuals = split (cmd, ' ');
+        std::string brief, params;
+        for (auto const& ndx: console.alias_indexes)
+            if (auto [n, p, b, d, e] = extract_message (console.alias_data, ndx);
+                    actuals[0] == std::string_view (n, p-n))
+            {
+                params.assign (p, b);
+                brief.assign (b, d);
+                break;
+            }
+        if (params.size ())
+        {
+            std::reverse (actuals.begin (), actuals.end ());
+            actuals.pop_back ();
+
+            if (actuals.size () != split (params, ' ').size ())
+                brief.clear ();
+            else
+            {
+                for (std::size_t i = 0, n = brief.size (); i < n && actuals.size (); ++i)
+                    if (auto j = brief.find ('<', i); j != std::string::npos)
+                        if (auto k = brief.find ('>', j+1); k != std::string::npos)
+                        {
+                            brief.replace (j, k-j+1, actuals.back ());
+                            actuals.pop_back ();
+                        }
+            }
+        }
+        if (brief.size ())
+            cmd = brief;
+        else result = "Unable to execute an alias.";
+    }
+
+    if (result.size ())
+    {
+        record_log_message (false, result);
+        result.clear ();
+        cmd.clear ();
+    }
+
+    if (cmd.size ())
+    {
+        skyrim_log::last_message ("");
+        skyrim_console::execute (cmd);
+        result = skyrim_log::last_message ();
+        if (result.size ())
+            record_log_message (false, result);
+    }
+
     current_history = console.log_indexes.size ();
     log_filter.update (log_filter.buffer.data (), true);
     scroll_to_bottom = true;
@@ -466,7 +655,7 @@ void render (int active)
         {
             if (imgui.igButton ("Copy##Log popup", button_size))
             {
-                log_to_clipboard = true;
+                execute_command ("/copy");
                 imgui.igCloseCurrentPopup ();
             }
             if (imgui.igButton ("Save##Log popup", button_size))
@@ -481,11 +670,7 @@ void render (int active)
             }
             if (imgui.igButton ("Clear##Log popup", button_size))
             {
-                log_filter.clear ();
-                console.log_data.clear ();
-                console.log_indexes.clear ();
-                console.counter_in = console.counter_out = 0;
-                current_history = 0;
+                execute_command ("/clear");
                 imgui.igCloseCurrentPopup ();
             }
             imgui.igEndPopup ();
@@ -538,18 +723,10 @@ void render (int active)
     imgui.igEnd ();
 
     if (auto f = render_load_log.update (); !f.empty ())
-        if (load_log_file (f))
-        {
-            current_history = 0;
-            log_filter.clear ();
-            log_filter.update (log_filter.buffer.data (), true);
-        }
+        execute_command ("/load " + f.replace_extension ().string ());
 
     if (auto f = render_load_run.update (); !f.empty ())
-    {
-        if (load_run_file (f) && !console.commands.empty ())
-            update_timer (console.execution_delay);
-    }
+        execute_command ("/run " + f.string ());
 
     if (show_save_log)
         render_save_log ();

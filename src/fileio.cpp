@@ -234,7 +234,7 @@ load_settings ()
         load_font (json, console.log_font);
 
         console.prompt_color = IM_COL32 (0, 192, 0, 255);
-        console.out_color = IM_COL32 (192, 192, 192, 255);
+        console.out_color = IM_COL32 (255, 255, 255, 255);
         console.in_color = IM_COL32 (192, 192, 192, 255);
         if (json.contains ("Log colors"))
         {
@@ -269,6 +269,52 @@ load_settings ()
     catch (std::exception const& ex)
     {
         log () << "Unable to load settings file: " << ex.what () << std::endl;
+        return false;
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+
+bool
+save_aliases ()
+{
+    try
+    {
+        nlohmann::json json;
+        for (auto ndx: console.alias_indexes)
+        {
+            auto [n, p, b, d, e] = extract_message (console.alias_data, ndx);
+            json.push_back ({
+                { "names" , { std::string (n, p) }},
+                { "params",   std::string (p, b) },
+                { "brief" ,   std::string (b, d) },
+                { "details",  std::string (d, e) },
+            });
+        }
+
+        int maj, min, patch;
+        const char* timestamp;
+        plugin_version (&maj, &min, &patch, &timestamp);
+
+        json.push_back ({
+            { "version", {
+                { "major", maj },
+                { "minor", min },
+                { "patch", patch },
+                { "timestamp", timestamp }
+            }}
+        });
+
+        std::ofstream of (locations.help_alias);
+        if (!of.is_open ())
+            log () << "Unable to open " << locations.help_alias << " for writting." << std::endl;
+        else
+            of << json.dump (4);
+    }
+    catch (std::exception const& ex)
+    {
+        log () << "Unable to save aliases file: " << ex.what () << std::endl;
         return false;
     }
     return true;

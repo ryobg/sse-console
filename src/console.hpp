@@ -117,6 +117,7 @@ bool load_run_file (std::filesystem::path const& filename);
 bool load_settings ();
 bool save_settings ();
 bool load_help_files ();
+bool save_aliases ();
 
 bool setup ();
 bool setup_render ();
@@ -175,7 +176,7 @@ public:
     }
 
     /// When the indexes/text are reset outside
-    void clear ()
+    void reset ()
     {
         current_filter = source_filter;
         std::fill (chars.begin (), chars.end (), "");
