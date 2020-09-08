@@ -50,6 +50,71 @@ format_utf8message (DWORD error_code)
 
 //--------------------------------------------------------------------------------------------------
 
+bool
+create_process (std::string const& line, std::string const& out)
+{
+    HANDLE file = nullptr;
+
+    if (out.size ())
+    {
+        std::wstring ws;
+        if (!utf8_to_utf16 (out.c_str (), ws))
+            return false;
+
+        SECURITY_ATTRIBUTES sa;
+        ::ZeroMemory (&sa, sizeof (sa));
+        sa.nLength = sizeof (sa);
+        sa.bInheritHandle = TRUE;
+
+        file = ::CreateFile (
+                ws.c_str (), GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ,
+                &sa, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+        if (file == INVALID_HANDLE_VALUE)
+            return false;
+    }
+
+    STARTUPINFO si;
+    ::ZeroMemory (&si, sizeof (si));
+    si.cb = sizeof (si);
+    si.dwFlags = STARTF_USESHOWWINDOW | (file ? STARTF_USESTDHANDLES : 0);
+    si.wShowWindow = SW_SHOWMINNOACTIVE;
+    si.hStdInput = NULL;
+    si.hStdError = file;
+    si.hStdOutput = file;
+
+    PROCESS_INFORMATION pi;
+    ::ZeroMemory (&pi, sizeof (pi));
+
+    std::wstring ws;
+    if (!utf8_to_utf16 (line.c_str (), ws))
+        return false;
+
+    if (!::CreateProcess (
+        nullptr,        // No application name (use command line)
+        ws.data (),     // Command line
+        nullptr,        // Process attributes are default, not inheritable
+        nullptr,        // Thread attributes are default, not inheritable
+        file ? TRUE : FALSE, // Inherit handles if redirecting the output
+        CREATE_NEW_PROCESS_GROUP | DETACHED_PROCESS,
+        nullptr,        // Use current/parent's environment block
+        nullptr,        // Use current/parent's starting directory
+        &si,            // Pointer to STARTUPINFO structure
+        &pi)            // Pointer to PROCESS_INFORMATION structure
+    )
+    {
+        ::CloseHandle (file);
+        return false;
+    }
+
+    // Close process and thread handles.
+    ::CloseHandle (pi.hProcess);
+    ::CloseHandle (pi.hThread);
+    ::CloseHandle (file);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+
 /// Hanging around for debug purposes
 
 const char*

@@ -442,14 +442,33 @@ execute_command (std::string cmd)
         else if (match_param ("/save "))
             save_log_file (plugin_directory () + param + ".log");
 
-        else if (match_param ("/filter") && param.size ()+1 < log_filter.buffer.size ())
-            *std::copy (param.cbegin (), param.cend (), log_filter.buffer.begin ()) = '\0';
-        else if (match_param ("/filter-gui") && param.size ()+1 < gui_filter.buffer.size ())
-            *std::copy (param.cbegin (), param.cend (), gui_filter.buffer.begin ()) = '\0';
-        else if (match_param ("/filter-sse") && param.size ()+1 < sse_filter.buffer.size ())
-            *std::copy (param.cbegin (), param.cend (), sse_filter.buffer.begin ()) = '\0';
+        else if (match_param ("/async "))
+        {
+            std::error_code ec;
+            std::filesystem::remove (plugin_directory () + "async", ec);
+            if (!create_process (param, plugin_directory () + "async"))
+                result = "Unable to create a process.";
+        }
+        else if (cmd == "/async-read")
+        {
+            std::ifstream fi (plugin_directory () + "async");
+            if (fi.is_open ())
+            {
+                std::stringstream ss;
+                ss << fi.rdbuf ();
+                result = ss.str ();
+            }
+            else result = "Unable to read file.";
+        }
+
         else if (match_param ("/filter-alias") && param.size ()+1 < alias_filter.buffer.size ())
             *std::copy (param.cbegin (), param.cend (), alias_filter.buffer.begin ()) = '\0';
+        else if (match_param ("/filter-sse") && param.size ()+1 < sse_filter.buffer.size ())
+            *std::copy (param.cbegin (), param.cend (), sse_filter.buffer.begin ()) = '\0';
+        else if (match_param ("/filter-gui") && param.size ()+1 < gui_filter.buffer.size ())
+            *std::copy (param.cbegin (), param.cend (), gui_filter.buffer.begin ()) = '\0';
+        else if (match_param ("/filter") && param.size ()+1 < log_filter.buffer.size ())
+            *std::copy (param.cbegin (), param.cend (), log_filter.buffer.begin ()) = '\0';
 
         else if (match_param ("/alias-delete ") && param.size () > 1)
         {
@@ -529,6 +548,7 @@ execute_command (std::string cmd)
     {
         auto actuals = split (cmd, ' ');
         std::string brief, params;
+
         for (auto const& ndx: console.alias_indexes)
             if (auto [n, p, b, d, e] = extract_message (console.alias_data, ndx);
                     actuals[0] == std::string_view (n, p-n))
@@ -537,6 +557,7 @@ execute_command (std::string cmd)
                 brief.assign (b, d);
                 break;
             }
+
         if (params.size ())
         {
             std::reverse (actuals.begin (), actuals.end ());
@@ -546,15 +567,17 @@ execute_command (std::string cmd)
                 brief.clear ();
             else
             {
-                for (std::size_t i = 0, n = brief.size (); i < n && actuals.size (); ++i)
+                for (std::size_t i = 0; i < brief.size () && actuals.size (); ++i)
                     if (auto j = brief.find ('<', i); j != std::string::npos)
                         if (auto k = brief.find ('>', j+1); k != std::string::npos)
                         {
                             brief.replace (j, k-j+1, actuals.back ());
+                            i = j + actuals.back ().size ();
                             actuals.pop_back ();
                         }
             }
         }
+
         if (brief.size ())
             cmd = brief;
         else result = "Unable to execute an alias.";

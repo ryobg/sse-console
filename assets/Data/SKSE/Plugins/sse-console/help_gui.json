@@ -102,5 +102,21 @@
         ], 
         "details": "Deletes a previously created alias.", 
         "params": "<name>"
+    }, 
+    {
+        "brief": "Launch an asynchronous process.", 
+        "names": [
+            "/async"
+        ], 
+        "details": "Create a minimized, not-activated process with its standard and error outputs redirected to a specific file. Which application and with what arguments is created depend on the parameter, e.g.: \"/alias python -c \"print (hex (0xcafe * 2))\"\".\n\nSee \"/async-read\" about the captured output.", 
+        "params": "<command line>"
+    }, 
+    {
+        "brief": "See the captured output of \"/async\".", 
+        "names": [
+            "/async-read"
+        ], 
+        "details": "Reads and prints the file which is capturing the output of \"/async\". Depending on how long lived was, or is still living, the launched process, the content might update any time, hence it depends at which point of the time this command is invoked and how many times.", 
+        "params": ""
     } 
 ]

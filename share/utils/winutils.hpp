@@ -149,6 +149,9 @@ std::string format_utf8message (DWORD error_code);
 /// Report as text the given windows message (e.g. WM_*) identifier
 const char* window_message_text (unsigned msg);
 
+/// Create and returns right away a process, optionally its stdout/stderr redirected to a file
+bool create_process (std::string const& command_line, std::string const& output_file = "");
+
 //--------------------------------------------------------------------------------------------------
 
 /// Including file permissions and etc. errors
