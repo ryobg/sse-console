@@ -55,7 +55,7 @@ def options(opt):
 def configure(conf):
     conf.load('compiler_cxx')
 
-    if conf.env['CXX_NAME'] is 'gcc':
+    if conf.env['CXX_NAME'] == 'gcc':
         conf.check_cxx (msg="Checking for '-std=c++17'", cxxflags='-std=c++17') 
         conf.env.append_unique('CXXFLAGS', \
                 ['-std=c++17', "-O2", "-Wall", "-Wno-parentheses", "-D_UNICODE", "-DUNICODE"])
