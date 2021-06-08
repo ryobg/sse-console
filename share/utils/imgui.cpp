@@ -34,20 +34,20 @@ constexpr int color_widget_flags = ImGuiColorEditFlags_Float | ImGuiColorEditFla
 
 default_theme::default_theme ()
 {
-    imgui.igPushStyleColor (ImGuiCol_FrameBg,       ImVec4 {0, 0, 0, 0});
-    imgui.igPushStyleColor (ImGuiCol_Button,        ImVec4 {0, 0, 0, 0});
-    imgui.igPushStyleColor (ImGuiCol_TitleBgActive, ImVec4 {0, 0, 0, 1.f});
-    imgui.igPushStyleColor (ImGuiCol_CheckMark,     ImVec4 {.61f, .61f, .61f, 1.f});
-    imgui.igPushStyleColor (ImGuiCol_SliderGrab,    ImVec4 {.61f, .61f, .61f, 1.f});
-    imgui.igPushStyleColor (ImGuiCol_ResizeGrip,    ImVec4 {.61f, .61f, .61f, 1.f});
-    imgui.igPushStyleColor (ImGuiCol_TextSelectedBg,ImVec4 {.61f, .61f, .61f, 1.f});
-    imgui.igPushStyleColor (ImGuiCol_ButtonHovered ,ImVec4 {0.26f, 0.59f, 0.98f, 0.4f});
-    imgui.igPushStyleColor (ImGuiCol_FrameBgHovered,ImVec4 {0.26f, 0.59f, 0.98f, 0.4f});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_FrameBg,        ImVec4 {0, 0, 0, 0});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_Button,         ImVec4 {0, 0, 0, 0});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_TitleBgActive,  ImVec4 {0, 0, 0, 1.f});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_CheckMark,      ImVec4 {.61f, .61f, .61f, 1.f});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_SliderGrab,     ImVec4 {.61f, .61f, .61f, 1.f});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_ResizeGrip,     ImVec4 {.61f, .61f, .61f, 1.f});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_TextSelectedBg, ImVec4 {.61f, .61f, .61f, 1.f});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_ButtonHovered , ImVec4 {0.26f, 0.59f, 0.98f, 0.4f});
+    imgui.igPushStyleColor_Vec4 (ImGuiCol_FrameBgHovered, ImVec4 {0.26f, 0.59f, 0.98f, 0.4f});
 
-    imgui.igPushStyleVarVec2 (ImGuiStyleVar_ItemSpacing, ImVec2 {5, 10});
-    imgui.igPushStyleVarVec2 (ImGuiStyleVar_FramePadding, ImVec2 {5, 5});
-    imgui.igPushStyleVarFloat (ImGuiStyleVar_FrameBorderSize, 1.f);
-    imgui.igPushStyleVarFloat (ImGuiStyleVar_WindowBorderSize, 0.f);
+    imgui.igPushStyleVar_Vec2 (ImGuiStyleVar_ItemSpacing, ImVec2 {5, 10});
+    imgui.igPushStyleVar_Vec2 (ImGuiStyleVar_FramePadding, ImVec2 {5, 5});
+    imgui.igPushStyleVar_Float (ImGuiStyleVar_FrameBorderSize, 1.f);
+    imgui.igPushStyleVar_Float (ImGuiStyleVar_WindowBorderSize, 0.f);
 }
 
 default_theme::~ default_theme ()
@@ -69,9 +69,10 @@ render_font_settings (font_t& font, bool render_color)
     if (render_color)
     {
         auto color = "Color##" + font.name;
-        ImVec4 col = imgui.igColorConvertU32ToFloat4 (font.color);
+        ImVec4 col;
+        imgui.igColorConvertU32ToFloat4 (&col, font.color);
         if (imgui.igColorEdit4 (color.c_str (), (float*) &col, color_widget_flags))
-            font.color = imgui.igGetColorU32Vec4 (col);
+            font.color = imgui.igGetColorU32_Vec4 (col);
     }
 
     auto scale = "Scale##" + font.name;
@@ -83,9 +84,10 @@ render_font_settings (font_t& font, bool render_color)
 void
 render_color_setting (const char* name, std::uint32_t& color)
 {
-    ImVec4 c = imgui.igColorConvertU32ToFloat4 (color);
+    ImVec4 c;
+    imgui.igColorConvertU32ToFloat4 (&c, color);
     if (imgui.igColorEdit4 (name, (float*) &c, color_widget_flags))
-        color = imgui.igGetColorU32Vec4 (c);
+        color = imgui.igGetColorU32_Vec4 (c);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -136,11 +138,12 @@ std::filesystem::path render_load_files::update ()
     if (imgui.igBegin (title.c_str (), &show, 0))
     {
         imgui.igText (plugin_directory ().c_str ());
-        auto namessz = imgui.igGetContentRegionAvail ();
+        ImVec2 namessz;
+        imgui.igGetContentRegionAvail (&namessz);
         namessz.x -= button_size.x + imgui.igGetStyle ()->ItemSpacing.x;
         imgui.igSetNextItemWidth (namessz.x);
         imgui.igBeginGroup ();
-        imgui.igListBoxFnPtr ("##Names",
+        imgui.igListBox_FnBoolPtr ("##Names",
                 &selection, extract_vector_string, &names, int (names.size ()), height_hint);
         imgui.igEndGroup ();
         imgui.igSameLine (0, -1);

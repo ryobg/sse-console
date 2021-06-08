@@ -61,7 +61,7 @@ static void execute_command (std::string cmd);
 bool
 setup_render ()
 {
-    top_window = (HWND) imgui.igGetIO ()->ImeWindowHandle;
+    top_window = (HWND) imgui.igGetMainViewport ()->PlatformHandle;
     input_text_buffer.clear ();
     input_text_buffer.resize (1024, '\0');
     current_history = 0;
@@ -257,7 +257,7 @@ render_settings ()
         imgui.igText ("Running scripts:");
         if (imgui.igDragInt ("Delay", &console.execution_delay, 1.f,
                 std::max (50, USER_TIMER_MINIMUM), std::min (60'000, USER_TIMER_MAXIMUM),
-                "%d milliseconds"))
+                "%d milliseconds", 0))
         {
             extern void update_timer (int period);
             if (!console.commands.empty ())
@@ -291,7 +291,7 @@ render_help (const char* title, bool* show, records_filter<help_index>& filter)
             filter.update (filter.buffer.data ());
         }
 
-        imgui.igBeginChild ("##Help", ImVec2 {0, 0}, false, 0);
+        imgui.igBeginChild_Str ("##Help", ImVec2 {0, 0}, false, 0);
         // See #render_log() for why this chews FPS
         auto const* display_records = filter.current_indexes ();
         for (std::size_t i = 0, n = display_records->size (); i < n; ++i)
@@ -301,22 +301,22 @@ render_help (const char* title, bool* show, records_filter<help_index>& filter)
 
             imgui.igText ("");
             int pops = 0;
-            imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_names_color); ++pops;
+            imgui.igPushStyleColor_U32 (ImGuiCol_Text, console.help_names_color); ++pops;
             imgui.igTextUnformatted (names, params);
             if (params != brief)
             {
-                imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_params_color); ++pops;
+                imgui.igPushStyleColor_U32 (ImGuiCol_Text, console.help_params_color); ++pops;
                 imgui.igTextUnformatted (params, brief);
             }
             imgui.igPushTextWrapPos (0.f);
             if (brief != details)
             {
-                imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_brief_color); ++pops;
+                imgui.igPushStyleColor_U32 (ImGuiCol_Text, console.help_brief_color); ++pops;
                 imgui.igTextUnformatted (brief, details);
             }
             if (details != end)
             {
-                imgui.igPushStyleColorU32 (ImGuiCol_Text, console.help_details_color); ++pops;
+                imgui.igPushStyleColor_U32 (ImGuiCol_Text, console.help_details_color); ++pops;
                 imgui.igTextUnformatted (details, end);
             }
             imgui.igPopStyleColor (pops);
@@ -334,7 +334,7 @@ render_log ()
 {
     float footer_height = 3 * imgui.igGetFrameHeightWithSpacing ();
     imgui.igPushFont (console.log_font.imfont);
-    imgui.igBeginChild ("##Log", ImVec2 { 0, -footer_height }, false, 0);
+    imgui.igBeginChild_Str ("##Log", ImVec2 { 0, -footer_height }, false, 0);
 
     if (log_to_clipboard)
         imgui.igLogToClipboard (-1);
@@ -354,13 +354,13 @@ render_log ()
         auto ndx = (*display_records)[i];
         auto [left, mid, right] = extract_message (console.log_data, ndx);
 
-        imgui.igPushStyleColorU32 (ImGuiCol_Text, console.prompt_color);
+        imgui.igPushStyleColor_U32 (ImGuiCol_Text, console.prompt_color);
         imgui.igTextUnformatted (left, mid);
         imgui.igPopStyleColor (1);
 
         imgui.igSameLine (0, -1);
         imgui.igPushTextWrapPos (0.f);
-        imgui.igPushStyleColorU32 (ImGuiCol_Text, ndx.out ? console.out_color:console.in_color);
+        imgui.igPushStyleColor_U32 (ImGuiCol_Text, ndx.out ? console.out_color:console.in_color);
         imgui.igTextUnformatted (mid, right);
         imgui.igPopStyleColor (1);
         imgui.igPopTextWrapPos ();
@@ -666,7 +666,9 @@ void render (int active)
             imgui.igSetKeyboardFocusHere (-1);
 
         // New line
-        button_size.x = imgui.igCalcTextSize (" Load & Run ", nullptr, false, -1.f).x;
+        ImVec2 computed_button_size;
+        imgui.igCalcTextSize (&computed_button_size, " Load & Run ", nullptr, false, -1.f);
+        button_size.x = computed_button_size.x;
         render_load_log.button_size = render_load_run.button_size = button_size;
 
         if (imgui.igButton ("Run", button_size))
