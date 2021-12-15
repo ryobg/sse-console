@@ -62,7 +62,7 @@ trim_both (S&& s, T const& t)
 }
 
 template<class S, class T>
-constexpr decltype (auto)
+constexpr auto
 trimmed_both (S const& s, T const& t)
 {
     std::basic_string b (s);

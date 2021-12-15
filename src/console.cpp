@@ -39,7 +39,7 @@ console_t console;
 std::string const&
 plugin_name ()
 {
-    static std::string v = "sse-console";
+    static std::string v = PLUGIN_NAME;
     return v;
 }
 
