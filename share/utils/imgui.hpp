@@ -40,8 +40,9 @@
 
 /// Define and setup in the utils/skse.cpp
 extern imgui_api imgui;
+extern sseimgui_api sseimgui;
 
-/// Defined in inconsolate.cpp
+/// Defined in inconsolata.cpp
 extern const char* font_inconsolata;
 
 //--------------------------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ public:
         show = true;
         open = true;
     }
-    std::filesystem::path update ();
+    std::filesystem::path update (std::filesystem::path const& folder = plugin_directory ());
 };
 
 //--------------------------------------------------------------------------------------------------

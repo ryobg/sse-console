@@ -114,7 +114,7 @@ extract_vector_string (void* data, int idx, const char** out_text)
     return true;
 }
 
-std::filesystem::path render_load_files::update ()
+std::filesystem::path render_load_files::update (std::filesystem::path const& folder)
 {
     if (!show)
         return "";
@@ -126,18 +126,18 @@ std::filesystem::path render_load_files::update ()
         for (auto const& x: extensions)
         {
             auto b = names.size ();
-            enumerate_files (plugin_directory () + "*" + x, names);
+            enumerate_files (folder.string () + "*" + x, names);
             auto e = names.size ();
             std::sort (names.begin () + b, names.begin () + e);
         }
         if (extensions.size () == 1)
-            for (auto& n: names) n = n.substr (0, n.size () - 4);
+            for (auto& n: names) n = n.substr (0, n.size () - extensions[0].size ());
     }
 
     std::filesystem::path target;
     if (imgui.igBegin (title.c_str (), &show, 0))
     {
-        imgui.igText (plugin_directory ().c_str ());
+        imgui.igText (folder.string ().c_str ());
         ImVec2 namessz;
         imgui.igGetContentRegionAvail (&namessz);
         namessz.x -= button_size.x + imgui.igGetStyle ()->ItemSpacing.x;
